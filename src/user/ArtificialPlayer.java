@@ -1,6 +1,6 @@
-package User;
+package user;
 
-public class Opponent extends Player {
+public class ArtificialPlayer extends Player {
 
     public String setCrossSymbol(){
         return representation = cross;

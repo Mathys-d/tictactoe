@@ -1,27 +1,19 @@
-package Game;
+package game;
 
-import Board.Cell;
-import User.ArtificialPlayer;
-import User.Opponent;
-import User.Player;
+import board.Cell;
+import user.ArtificialPlayer;
+import user.Opponent;
+import user.Player;
 
-public class gameLogic {
+public class GameLogic {
 
     private final InteractionUtilisateur interfaceMenu;
 
-    public gameLogic(InteractionUtilisateur interfaceMenu) {
+    public GameLogic(InteractionUtilisateur interfaceMenu) {
         this.interfaceMenu=interfaceMenu;
     }
 
-    protected void init(int size, Cell [][] tableau) {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (tableau[i][j] == null) {
-                    tableau[i][j] = new Cell();
-                }
-            }
-        }
-    }
+
 
 
 
@@ -76,7 +68,6 @@ public class gameLogic {
         tableau[row][col].setRepresentation(symbol);
 
         // Tour suivant
-        cpt++;
     }
 
     public boolean isFull(Cell[][] tab) {
@@ -92,9 +83,9 @@ public class gameLogic {
 
 
 
-    public String isOwnedBy(int size, Cell [][] tableau) {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+    public String isOwnedBy(int sizX,int sizY, Cell [][] tableau) {
+        for (int i = 0; i < sizX; i++) {
+            for (int j = 0; j < sizY; j++) {
                 String symbol = tableau[i][j].getSymbol();
                 return symbol;
             }
@@ -102,20 +93,21 @@ public class gameLogic {
         return "empty";
     }
 
-    public boolean winCondition(int size, Cell[][] tableau) {
+    public boolean winCondition(int sizeX,int sizeY, Cell[][] tableau,int whichGame) {
         //<---> horizontal et vertical search
-        for (int i = 0; i < size; i++) {
-            if (isRowWin(i,size,tableau) || isColWin(i,size,tableau)) {
+
+        for (int i = 0; i < sizeX; i++) {
+            if (isRowWin(i,sizeX,tableau) || isColWin(i,sizeX,tableau)) {
                 System.out.println("you win");
                 return true;
             }
         }
 
         // diagonale principale (L-UP TO R-DOWN)
-        boolean mainDiag = true;
+       boolean mainDiag = true;
         String firstSymbol = tableau[0][0].getSymbol();
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
-            for (int i = 1; i < size; i++) {
+            for (int i = 1; i < sizeX; i++) {
                 String symbol = tableau[i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
                     mainDiag = false;
@@ -130,10 +122,10 @@ public class gameLogic {
 
         // diagonale secondaire (L-DOWN TO R-UP)
         boolean antiDiag = true;
-        firstSymbol = tableau[size - 1][0].getSymbol();
+        firstSymbol = tableau[sizeX - 1][0].getSymbol();
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
-            for (int i = 1; i < size; i++) {
-                String symbol = tableau[size - 1 - i][i].getSymbol();
+            for (int i = 1; i < sizeX; i++) {
+                String symbol = tableau[sizeX - 1 - i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
                     antiDiag = false;
                     break;
@@ -154,11 +146,11 @@ public class gameLogic {
         return false;
     }
 
-    public boolean isRowWin(int row, int size, Cell[][] tableau) {
+    public boolean isRowWin(int row, int sizeX, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < sizeX; i++) {
             String symbol = tableau[row][i].getSymbol();
 
             if (symbol.equals("X")) {
@@ -172,18 +164,18 @@ public class gameLogic {
                 circleStreak = 0;
             }
 
-            if (crossStreak == size || circleStreak == size) {
+            if (crossStreak == sizeX || circleStreak == sizeX) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isColWin(int col, int size, Cell[][] tableau) {
+    public boolean isColWin(int col, int sizeY, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < sizeY; i++) {
             String symbol = tableau[i][col].getSymbol();
 
             if (symbol.equals("X")) {
@@ -197,7 +189,7 @@ public class gameLogic {
                 circleStreak = 0;
             }
 
-            if (crossStreak == size || circleStreak == size) {
+            if (crossStreak == sizeY || circleStreak == sizeY) {
                 return true;
             }
         }

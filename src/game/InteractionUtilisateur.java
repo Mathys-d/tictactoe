@@ -1,6 +1,6 @@
-package Game;
+package game;
 
-import Board.Cell;
+import board.Cell;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -13,25 +13,38 @@ public class InteractionUtilisateur {
     Scanner sc = new Scanner(System.in);
     Random randomNumbers = new Random();
 
-
-
-
-    public void display(int size, Cell[][] tableau) {
-        for (int i = 0; i < size; i++) {
-            System.out.println("-------------------");
-            System.out.print("| ");
-
-            for (int j = 0; j < size; j++) {
-                if (tableau[i][j] == null) {
-                    System.out.print("   " + " | ");
-                } else {
-                    System.out.print(tableau[i][j] + " | ");
-                }
+    public int [] chooseGame(){
+        boolean a = false;
+        int [] choiceListe = new int[3];
+        while (!a) {
+            System.out.println("choose your game (TicTacToe (1)/ gumoku (2) / power 4 (3))");
+            String choice = sc.nextLine();
+            if (Integer.parseInt(choice) == 1) {
+                System.out.println("you choose TicTacToe");
+                a = true;
+                choiceListe[0] = 3; //size
+                choiceListe[1] = 3; //size y
+                choiceListe[2] = 1; //which game
+                return choiceListe;
+            } else if (Integer.parseInt(choice) == 2) {
+                System.out.println("you choose gumoku");
+                a = true;
+                choiceListe[0] = 15; //size
+                choiceListe[1] = 15; //size y
+                choiceListe[2] = 2; //which game
+                return choiceListe;
+            } else if (Integer.parseInt(choice) == 3) {
+                System.out.println("you choose power 4");
+                a = true;
+                choiceListe[0] = 7; //size x
+                choiceListe[1] = 6; //size y
+                choiceListe[2] = 3; //which game
+                return choiceListe;
+            } else {
+                System.out.println("wrong input (solo vs ia (1)/ multiplayer (2))");
             }
-            System.out.println();
-
         }
-        System.out.println("------------------");
+        return choiceListe;
     }
 
     protected int startMenu() {
@@ -58,6 +71,24 @@ public class InteractionUtilisateur {
         return 0;
     }
 
+    public void display(int sizX,int sizeY, Cell[][] tableau) {
+        for (int i = 0; i < sizX; i++) {
+            System.out.println("-------------------");
+            System.out.print("| ");
+
+            for (int j = 0; j < sizeY; j++) {
+                if (tableau[i][j] == null) {
+                    System.out.print("   " + " | ");
+                } else {
+                    System.out.print(tableau[i][j] + " | ");
+                }
+            }
+            System.out.println();
+
+        }
+        System.out.println("------------------");
+    }
+
     public boolean isUsed(int i, int j, Cell[][] tableau) {
         if (!tableau[i][j].isEmpty()) {
             return true;
@@ -68,9 +99,9 @@ public class InteractionUtilisateur {
         boolean isValid = false;
 
         while (!isValid) {
-            System.out.println("choose the row [0-2]");
+            System.out.println("choose the row [0-" + (tableau.length - 1) + "]");
             String first = sc.nextLine().trim();
-            System.out.println("choose the column [0-2]");
+            System.out.println("choose the column [0-" + (tableau[0].length - 1) + "]");
             String second = sc.nextLine().trim();
             System.out.println("you choose  " + first + " and " + second);
 
@@ -96,8 +127,8 @@ public class InteractionUtilisateur {
     public int[] getMoveFromArtificial(Cell [][] tableau) {
         int row, col;
         do {
-            row = randomNumbers.nextInt(3);
-            col = randomNumbers.nextInt(3);
+            row = randomNumbers.nextInt(tableau.length);
+            col = randomNumbers.nextInt(tableau[0].length);
         } while (isUsed(row, col,tableau));
 
         System.out.println("IA chooses " + row + " and " + col);
