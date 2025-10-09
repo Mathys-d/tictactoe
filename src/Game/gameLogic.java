@@ -1,0 +1,206 @@
+package Game;
+
+import Board.Cell;
+import User.ArtificialPlayer;
+import User.Opponent;
+import User.Player;
+
+public class gameLogic {
+
+    private final InteractionUtilisateur interfaceMenu;
+
+    public gameLogic(InteractionUtilisateur interfaceMenu) {
+        this.interfaceMenu=interfaceMenu;
+    }
+
+    protected void init(int size, Cell [][] tableau) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (tableau[i][j] == null) {
+                    tableau[i][j] = new Cell();
+                }
+            }
+        }
+    }
+
+
+
+    public void usher(int menuChoice, int cpt, Player player, Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2,Cell [][] tableau) {
+        int[] move;
+        String symbol;
+
+        switch (menuChoice) {
+            case 1: // Solo
+                if (cpt % 2 == 0) { // Tour du joueur
+                    System.out.println("Player is playing");
+                    move = interfaceMenu.getMoveFromPlayer(tableau);
+                    symbol = player.getRepresentation();
+                } else { // Tour de l'IA
+                    System.out.println("AI is playing");
+                    move = interfaceMenu.getMoveFromArtificial(tableau);
+                    symbol = ia1.getRepresentation();
+                }
+                break;
+
+            case 2: // Multiplayer
+                if (cpt % 2 == 0) { // Joueur 1
+                    System.out.println("Player 1 is playing");
+                    move = interfaceMenu.getMoveFromPlayer(tableau);
+                    symbol = player.getRepresentation();
+                } else { // Joueur 2 / Enemy
+                    System.out.println("Player 2 is playing");
+                    move = interfaceMenu.getMoveFromPlayer(tableau); // demander au joueur 2
+                    symbol = enemy.getRepresentation();
+                }
+                break;
+
+            case 3: // IA vs IA
+                if (cpt % 2 == 0) { // IA1
+                    System.out.println("AI 1 is playing");
+                    move = interfaceMenu.getMoveFromArtificial(tableau);
+                    symbol = ia1.getRepresentation();
+                } else { // IA2
+                    System.out.println("AI 2 is playing");
+                    move = interfaceMenu.getMoveFromArtificial(tableau);
+                    symbol = ia2.getRepresentation();
+                }
+                break;
+
+            default:
+                return; // Sécurité
+        }
+
+        // Placer le symbole sur le tableau
+        int row = move[0];
+        int col = move[1];
+        tableau[row][col].setRepresentation(symbol);
+
+        // Tour suivant
+        cpt++;
+    }
+
+    public boolean isFull(Cell[][] tab) {
+        for (int i = 0; i < tab.length; i++) {
+            for (int j = 0; j < tab[i].length; j++) {
+                if (tab[i][j].isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+
+    public String isOwnedBy(int size, Cell [][] tableau) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                String symbol = tableau[i][j].getSymbol();
+                return symbol;
+            }
+        }
+        return "empty";
+    }
+
+    public boolean winCondition(int size, Cell[][] tableau) {
+        //<---> horizontal et vertical search
+        for (int i = 0; i < size; i++) {
+            if (isRowWin(i,size,tableau) || isColWin(i,size,tableau)) {
+                System.out.println("you win");
+                return true;
+            }
+        }
+
+        // diagonale principale (L-UP TO R-DOWN)
+        boolean mainDiag = true;
+        String firstSymbol = tableau[0][0].getSymbol();
+        if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
+            for (int i = 1; i < size; i++) {
+                String symbol = tableau[i][i].getSymbol();
+                if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
+                    mainDiag = false;
+                    break;
+                }
+            }
+            if (mainDiag) {
+                System.out.println("you win");
+                return true;
+            }
+        }
+
+        // diagonale secondaire (L-DOWN TO R-UP)
+        boolean antiDiag = true;
+        firstSymbol = tableau[size - 1][0].getSymbol();
+        if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
+            for (int i = 1; i < size; i++) {
+                String symbol = tableau[size - 1 - i][i].getSymbol();
+                if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
+                    antiDiag = false;
+                    break;
+                }
+            }
+            if (antiDiag) {
+                System.out.println("you win");
+                return true;
+            }
+        }
+
+        //draw
+        if (isFull(tableau)) {
+            System.out.println("draw");
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isRowWin(int row, int size, Cell[][] tableau) {
+        int crossStreak = 0;
+        int circleStreak = 0;
+
+        for (int i = 0; i < size; i++) {
+            String symbol = tableau[row][i].getSymbol();
+
+            if (symbol.equals("X")) {
+                crossStreak++;
+                circleStreak = 0;
+            } else if (symbol.equals("O")) {
+                circleStreak++;
+                crossStreak = 0;
+            } else {
+                crossStreak = 0;
+                circleStreak = 0;
+            }
+
+            if (crossStreak == size || circleStreak == size) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isColWin(int col, int size, Cell[][] tableau) {
+        int crossStreak = 0;
+        int circleStreak = 0;
+
+        for (int i = 0; i < size; i++) {
+            String symbol = tableau[i][col].getSymbol();
+
+            if (symbol.equals("X")) {
+                crossStreak++;
+                circleStreak = 0;
+            } else if (symbol.equals("O")) {
+                circleStreak++;
+                crossStreak = 0;
+            } else {
+                crossStreak = 0;
+                circleStreak = 0;
+            }
+
+            if (crossStreak == size || circleStreak == size) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
