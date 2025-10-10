@@ -2,23 +2,25 @@ package game;
 
 import board.Cell;
 import user.ArtificialPlayer;
-import user.Player;
 import user.Opponent;
+import user.Player;
 
-
-public class TicTacToe {
+public class Gomoku {
     protected int sizeX;
     protected int sizeY;
     Cell[][] tableau;
-    Player player = new Player();
-    Opponent enemy = new Opponent();
+    Player player;
+    Opponent enemy;
     InteractionUtilisateur interfaceMenu;
-    GameLogic gameLogic;
+    GameLogic gameLogic ;
     ArtificialPlayer ia1 = new ArtificialPlayer();
     ArtificialPlayer ia2 = new ArtificialPlayer();
     int cpt = 0;
 
-    public TicTacToe() { }
+    public Gomoku() {
+        this.player = new Player();
+        this.enemy = new Opponent();
+    }
 
 
     public void start(int[] gameChoice) {
@@ -38,7 +40,6 @@ public class TicTacToe {
     }
 
     public void launchGame(Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY, int whichGame) {
-        System.out.println("LG");
         init();
         int menuChoice = interfaceMenu.startMenu();
         //solo
@@ -116,4 +117,6 @@ public class TicTacToe {
     public String setGameSymbole() {
         return this.player.setRepresentation();
     }
+
+
 }

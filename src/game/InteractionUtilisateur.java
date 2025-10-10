@@ -7,16 +7,18 @@ import java.util.Scanner;
 
 public class InteractionUtilisateur {
 
-    public InteractionUtilisateur( ) {
+    public InteractionUtilisateur() {
     }
 
     Scanner sc = new Scanner(System.in);
     Random randomNumbers = new Random();
 
+
+
     public int [] chooseGame(){
         boolean a = false;
         int [] choiceListe = new int[3];
-        while (!a) {
+        while (a == false) {
             System.out.println("choose your game (TicTacToe (1)/ gumoku (2) / power 4 (3))");
             String choice = sc.nextLine();
             if (Integer.parseInt(choice) == 1) {
@@ -73,7 +75,7 @@ public class InteractionUtilisateur {
 
     public void display(int sizX,int sizeY, Cell[][] tableau) {
         for (int i = 0; i < sizX; i++) {
-            System.out.println("-------------------");
+            displayRow(sizX);
             System.out.print("| ");
 
             for (int j = 0; j < sizeY; j++) {
@@ -86,13 +88,32 @@ public class InteractionUtilisateur {
             System.out.println();
 
         }
-        System.out.println("------------------");
+        displayRow(sizX);
     }
 
     public boolean isUsed(int i, int j, Cell[][] tableau) {
         if (!tableau[i][j].isEmpty()) {
             return true;
         } return false;
+    }
+
+    public void displayRow(int size){
+        int len = 0;
+        int correction = 0;
+        if(size == 3){
+            len = 7;
+            correction = 2;
+        }else if(size == 6){
+            len = 7;
+            correction = 10;
+        }else if(size == 15){
+            len = 7;
+            correction = 14;
+        }
+
+        for (int j = 0; j < (size*len)-correction ; j++) {
+             System.out.print("-");
+        }        System.out.println();
     }
 
     public int[] getMoveFromPlayer(Cell[][] tableau) {
@@ -106,8 +127,8 @@ public class InteractionUtilisateur {
             System.out.println("you choose  " + first + " and " + second);
 
 
-            if (Integer.parseInt(first) >= 0 && Integer.parseInt(first) <= 2) {
-                if (Integer.parseInt(second) >= 0 && Integer.parseInt(second) <= 2) {
+            if (Integer.parseInt(first) >= 0 && Integer.parseInt(first) <= (tableau.length - 1)) {
+                if (Integer.parseInt(second) >= 0 && Integer.parseInt(second) <= (tableau.length - 1)) {
                     if (!isUsed(Integer.parseInt(first), Integer.parseInt(second),tableau)) {
                         return new int[]{Integer.parseInt(first), Integer.parseInt(second)};
                     } else {

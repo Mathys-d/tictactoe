@@ -8,14 +8,12 @@ import user.Player;
 public class GameLogic {
 
     private final InteractionUtilisateur interfaceMenu;
+    protected final int gameChoice;
 
-    public GameLogic(InteractionUtilisateur interfaceMenu) {
+    public GameLogic(InteractionUtilisateur interfaceMenu, int gameChoice) {
         this.interfaceMenu=interfaceMenu;
+        this.gameChoice = gameChoice;
     }
-
-
-
-
 
     public void usher(int menuChoice, int cpt, Player player, Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2,Cell [][] tableau) {
         int[] move;
@@ -149,6 +147,18 @@ public class GameLogic {
     public boolean isRowWin(int row, int sizeX, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
+        int len=0;
+
+        switch (gameChoice) {
+            case 1:
+                len = sizeX;break;
+            case 2:
+                len = 5;break;
+            case 3:
+                len = 4;break;
+        }
+
+
 
         for (int i = 0; i < sizeX; i++) {
             String symbol = tableau[row][i].getSymbol();
@@ -164,7 +174,7 @@ public class GameLogic {
                 circleStreak = 0;
             }
 
-            if (crossStreak == sizeX || circleStreak == sizeX) {
+            if (crossStreak == len || circleStreak == len) {
                 return true;
             }
         }
@@ -174,7 +184,16 @@ public class GameLogic {
     public boolean isColWin(int col, int sizeY, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
+        int len=0;
 
+        switch (gameChoice) {
+            case 1:
+                len = sizeY;break;
+            case 2:
+                len = 5;break;
+            case 3:
+                len = 4;break;
+        }
         for (int i = 0; i < sizeY; i++) {
             String symbol = tableau[i][col].getSymbol();
 
@@ -189,7 +208,7 @@ public class GameLogic {
                 circleStreak = 0;
             }
 
-            if (crossStreak == sizeY || circleStreak == sizeY) {
+            if (crossStreak == len || circleStreak == len) {
                 return true;
             }
         }
