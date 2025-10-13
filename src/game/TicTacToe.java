@@ -1,6 +1,7 @@
 package game;
 
 import board.Cell;
+import controller.GameLogic;
 import user.ArtificialPlayer;
 import user.Player;
 import user.Opponent;
@@ -18,7 +19,7 @@ public class TicTacToe {
     ArtificialPlayer ia2 = new ArtificialPlayer();
     int cpt = 0;
 
-    public TicTacToe() { }
+    public TicTacToe() {}
 
 
     public void start(int[] gameChoice) {

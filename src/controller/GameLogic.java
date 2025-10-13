@@ -1,11 +1,12 @@
-package game;
+package controller;
 
 import board.Cell;
+import game.InteractionUtilisateur;
 import user.ArtificialPlayer;
 import user.Opponent;
 import user.Player;
 
-public class GameLogic {
+public class GameLogic extends GameController{
 
     private final InteractionUtilisateur interfaceMenu;
     protected final int gameChoice;

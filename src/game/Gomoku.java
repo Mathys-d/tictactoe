@@ -1,6 +1,7 @@
 package game;
 
 import board.Cell;
+import controller.GameLogic;
 import user.ArtificialPlayer;
 import user.Opponent;
 import user.Player;
