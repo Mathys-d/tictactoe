@@ -2,31 +2,33 @@ package game;
 
 import board.Cell;
 import user.ArtificialPlayer;
-import user.Player;
 import user.Opponent;
+import user.Player;
 
+public class PuissanceFour {
 
-public class TicTacToe {
     protected int sizeX;
     protected int sizeY;
     Cell[][] tableau;
-    Player player = new Player();
-    Opponent enemy = new Opponent();
+    Player player;
+    Opponent enemy;
     InteractionUtilisateur interfaceMenu;
     GameLogic gameLogic;
     ArtificialPlayer ia1 = new ArtificialPlayer();
     ArtificialPlayer ia2 = new ArtificialPlayer();
     int cpt = 0;
 
-    public TicTacToe() { }
-
+    public PuissanceFour() {
+        this.player = new Player();
+        this.enemy = new Opponent();
+    }
 
     public void start(int[] gameChoice) {
         this.sizeX = gameChoice[0];
         this.sizeY = gameChoice[1];
         this.tableau = new Cell[sizeX][sizeY];
         this.interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
-        this.gameLogic = new GameLogic(interfaceMenu,gameChoice[2]);
+        this.gameLogic = new GameLogic(interfaceMenu, gameChoice[2]);
 
         if (gameChoice[2] == 1) {
             launchGame(enemy, ia1, ia2, sizeX, sizeY, gameChoice[2]);
@@ -40,8 +42,8 @@ public class TicTacToe {
     public void launchGame(Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY, int whichGame) {
         init();
         int menuChoice = interfaceMenu.startMenu();
-        //solo
 
+        // Solo
         if (menuChoice == 1) {
             String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
@@ -52,7 +54,7 @@ public class TicTacToe {
                 game(menuChoice, whichGame);
             }
         }
-        //multipalyer
+        // Multiplayer
         else if (menuChoice == 2) {
             String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
@@ -62,11 +64,17 @@ public class TicTacToe {
                 enemy.setCrossSymbol();
                 game(menuChoice, whichGame);
             }
-        } else if (menuChoice == 3) {
+        }
+        // IA vs IA
+        else if (menuChoice == 3) {
             ia1.setCrossSymbol();
             ia2.setCirclesSymbol();
             game(menuChoice, whichGame);
-        }//wrong choice
+        }
+        // Wrong choice
+        else if (menuChoice == 0) {
+            interfaceMenu.startMenu();
+        }
     }
 
     public void game(int menuChoice, int whichGame) {
@@ -84,6 +92,7 @@ public class TicTacToe {
                 System.out.println("Invalid mode");
                 return;
         }
+
 
         // Boucle principale commune à tous les modes
         while (!gameLogic.isFull(tableau) && gameLogic.winCondition(sizeX, sizeY, tableau)) {

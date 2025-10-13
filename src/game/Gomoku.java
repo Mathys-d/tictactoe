@@ -27,7 +27,7 @@ public class Gomoku {
         this.sizeX = gameChoice[0];
         this.sizeY = gameChoice[1];
         this.tableau = new Cell[sizeX][sizeY];
-        this.interfaceMenu = new InteractionUtilisateur();
+        this.interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
         this.gameLogic = new GameLogic(interfaceMenu,gameChoice[2]);
 
         if (gameChoice[2] == 1) {
@@ -69,9 +69,6 @@ public class Gomoku {
             ia2.setCirclesSymbol();
             game(menuChoice, whichGame);
         }//wrong choice
-        else if (menuChoice == 0) {
-            interfaceMenu.startMenu();
-        }
     }
 
     public void game(int menuChoice, int whichGame) {
@@ -91,7 +88,7 @@ public class Gomoku {
         }
 
         // Boucle principale commune à tous les modes
-        while (!gameLogic.isFull(tableau) && !gameLogic.winCondition(sizeX, sizeY, tableau, whichGame)) {
+        while (!gameLogic.isFull(tableau) && gameLogic.winCondition(sizeX, sizeY, tableau)) {
             gameLogic.usher(menuChoice, cpt, player, enemy, ia1, ia2, tableau);
             interfaceMenu.display(sizeX, sizeY, tableau);
 
@@ -99,7 +96,6 @@ public class Gomoku {
             if (menuChoice == 3) {
                 gameLogic.isOwnedBy(sizeX, sizeY, tableau);
             }
-
             cpt++;
         }
     }

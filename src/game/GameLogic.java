@@ -11,11 +11,11 @@ public class GameLogic {
     protected final int gameChoice;
 
     public GameLogic(InteractionUtilisateur interfaceMenu, int gameChoice) {
-        this.interfaceMenu=interfaceMenu;
+        this.interfaceMenu = interfaceMenu;
         this.gameChoice = gameChoice;
     }
 
-    public void usher(int menuChoice, int cpt, Player player, Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2,Cell [][] tableau) {
+    public void usher(int menuChoice, int cpt, Player player, Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, Cell[][] tableau) {
         int[] move;
         String symbol;
 
@@ -64,8 +64,6 @@ public class GameLogic {
         int row = move[0];
         int col = move[1];
         tableau[row][col].setRepresentation(symbol);
-
-        // Tour suivant
     }
 
     public boolean isFull(Cell[][] tab) {
@@ -79,30 +77,35 @@ public class GameLogic {
         return true;
     }
 
-
-
-    public String isOwnedBy(int sizX,int sizY, Cell [][] tableau) {
+    public String isOwnedBy(int sizX, int sizY, Cell[][] tableau) {
         for (int i = 0; i < sizX; i++) {
             for (int j = 0; j < sizY; j++) {
-                String symbol = tableau[i][j].getSymbol();
-                return symbol;
+                return tableau[i][j].getSymbol();
             }
         }
         return "empty";
     }
 
-    public boolean winCondition(int sizeX,int sizeY, Cell[][] tableau,int whichGame) {
-        //<---> horizontal et vertical search
+    public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau) {
 
+        // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
-            if (isRowWin(i,sizeX,tableau) || isColWin(i,sizeX,tableau)) {
+            if (isRowWin(i, sizeY, tableau)) {
                 System.out.println("you win");
-                return true;
+                return false;
             }
         }
 
-        // diagonale principale (L-UP TO R-DOWN)
-       boolean mainDiag = true;
+        // Vertical (colonnes)
+        for (int j = 0; j < sizeY; j++) {
+            if (isColWin(j, sizeX, tableau)) {
+                System.out.println("you win");
+                return false;
+            }
+        }
+
+        // Diagonale principale (L-UP TO R-DOWN)
+        boolean mainDiag = true;
         String firstSymbol = tableau[0][0].getSymbol();
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
             for (int i = 1; i < sizeX; i++) {
@@ -114,11 +117,11 @@ public class GameLogic {
             }
             if (mainDiag) {
                 System.out.println("you win");
-                return true;
+                return false;
             }
         }
 
-        // diagonale secondaire (L-DOWN TO R-UP)
+        // Diagonale secondaire (L-DOWN TO R-UP)
         boolean antiDiag = true;
         firstSymbol = tableau[sizeX - 1][0].getSymbol();
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
@@ -131,76 +134,65 @@ public class GameLogic {
             }
             if (antiDiag) {
                 System.out.println("you win");
-                return true;
+                return false;
             }
         }
 
-        //draw
+        // Draw
         if (isFull(tableau)) {
             System.out.println("draw");
-            return true;
+            return false;
         }
 
+        return true;
+    }
+
+    public boolean isRowWin(int row, int sizeY, Cell[][] tableau) {
+        int crossStreak = 0;
+        int circleStreak = 0;
+        int len = switch (gameChoice) {
+            case 1 -> sizeY; // TicTacToe : full row
+            case 2 -> 5;     // Gomoku
+            case 3 -> 4;     // Puissance 4
+            default -> 0;
+        };
+
+        for (int i = 0; i < sizeY; i++) {
+            String symbol = tableau[row][i].getSymbol();
+            if ("X".equals(symbol)) {
+                crossStreak++;
+                circleStreak = 0;
+            } else if ("O".equals(symbol)) {
+                circleStreak++;
+                crossStreak = 0;
+            } else {
+                crossStreak = 0;
+                circleStreak = 0;
+            }
+
+            if (crossStreak == len || circleStreak == len) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean isRowWin(int row, int sizeX, Cell[][] tableau) {
+    public boolean isColWin(int col, int sizeX, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
-        int len=0;
-
-        switch (gameChoice) {
-            case 1:
-                len = sizeX;break;
-            case 2:
-                len = 5;break;
-            case 3:
-                len = 4;break;
-        }
-
-
+        int len = switch (gameChoice) {
+            case 1 -> sizeX;
+            case 2 -> 5;
+            case 3 -> 4;
+            default -> 0;
+        };
 
         for (int i = 0; i < sizeX; i++) {
-            String symbol = tableau[row][i].getSymbol();
-
-            if (symbol.equals("X")) {
-                crossStreak++;
-                circleStreak = 0;
-            } else if (symbol.equals("O")) {
-                circleStreak++;
-                crossStreak = 0;
-            } else {
-                crossStreak = 0;
-                circleStreak = 0;
-            }
-
-            if (crossStreak == len || circleStreak == len) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isColWin(int col, int sizeY, Cell[][] tableau) {
-        int crossStreak = 0;
-        int circleStreak = 0;
-        int len=0;
-
-        switch (gameChoice) {
-            case 1:
-                len = sizeY;break;
-            case 2:
-                len = 5;break;
-            case 3:
-                len = 4;break;
-        }
-        for (int i = 0; i < sizeY; i++) {
             String symbol = tableau[i][col].getSymbol();
-
-            if (symbol.equals("X")) {
+            if ("X".equals(symbol)) {
                 crossStreak++;
                 circleStreak = 0;
-            } else if (symbol.equals("O")) {
+            } else if ("O".equals(symbol)) {
                 circleStreak++;
                 crossStreak = 0;
             } else {
@@ -214,4 +206,5 @@ public class GameLogic {
         }
         return false;
     }
+
 }
