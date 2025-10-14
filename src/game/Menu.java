@@ -2,7 +2,7 @@ package game;
 
 import java.util.Scanner;
 
-public class Menu {
+public class Menu extends Gomoku {
 
     InteractionUtilisateur interfaceMenu;
     TicTacToe ticTacToe;

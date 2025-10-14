@@ -6,7 +6,7 @@ import user.ArtificialPlayer;
 import user.Opponent;
 import user.Player;
 
-public class Gomoku {
+public  class Gomoku {
     protected int sizeX;
     protected int sizeY;
     Cell[][] tableau;

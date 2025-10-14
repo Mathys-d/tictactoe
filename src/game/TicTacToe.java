@@ -67,7 +67,7 @@ public class TicTacToe {
             ia1.setCrossSymbol();
             ia2.setCirclesSymbol();
             game(menuChoice, whichGame);
-        }//wrong choice
+        }
     }
 
     public void game(int menuChoice, int whichGame) {

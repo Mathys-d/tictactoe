@@ -1,10 +1,12 @@
 package game;
 
 import board.Cell;
+import user.Player;
+
 import java.util.Random;
 import java.util.Scanner;
 
-public class InteractionUtilisateur {
+public class InteractionUtilisateur extends Player {
 
     protected final Cell[][] tableau;
     Scanner sc = new Scanner(System.in);

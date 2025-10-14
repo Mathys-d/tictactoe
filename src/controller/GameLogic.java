@@ -6,17 +6,14 @@ import user.ArtificialPlayer;
 import user.Opponent;
 import user.Player;
 
-public class GameLogic extends GameController{
-
-    private final InteractionUtilisateur interfaceMenu;
-    protected final int gameChoice;
+public class GameLogic extends GameController {
 
     public GameLogic(InteractionUtilisateur interfaceMenu, int gameChoice) {
-        this.interfaceMenu = interfaceMenu;
-        this.gameChoice = gameChoice;
+        super(interfaceMenu, gameChoice);
     }
 
-    public void usher(int menuChoice, int cpt, Player player, Opponent enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, Cell[][] tableau) {
+    @Override
+    public void usher(int menuChoice, int cpt, Player player, Opponent enemy,ArtificialPlayer ia1, ArtificialPlayer ia2, Cell[][] tableau) {
         int[] move;
         String symbol;
 
@@ -67,6 +64,7 @@ public class GameLogic extends GameController{
         tableau[row][col].setRepresentation(symbol);
     }
 
+    @Override
     public boolean isFull(Cell[][] tab) {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
@@ -78,6 +76,7 @@ public class GameLogic extends GameController{
         return true;
     }
 
+    @Override
     public String isOwnedBy(int sizX, int sizY, Cell[][] tableau) {
         for (int i = 0; i < sizX; i++) {
             for (int j = 0; j < sizY; j++) {
@@ -87,8 +86,8 @@ public class GameLogic extends GameController{
         return "empty";
     }
 
+    @Override
     public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau) {
-
         // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
             if (isRowWin(i, sizeY, tableau)) {
@@ -148,6 +147,8 @@ public class GameLogic extends GameController{
         return true;
     }
 
+
+    @Override
     public boolean isRowWin(int row, int sizeY, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
@@ -178,6 +179,7 @@ public class GameLogic extends GameController{
         return false;
     }
 
+    @Override
     public boolean isColWin(int col, int sizeX, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
@@ -208,4 +210,8 @@ public class GameLogic extends GameController{
         return false;
     }
 
+    @Override
+    public void startGame() {
+
+    }
 }
