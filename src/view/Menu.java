@@ -1,7 +1,6 @@
-package game;
+package view;
 
 import model.TicTacToe;
-import view.InteractionUtilisateur;
 
 import java.util.Scanner;
 
