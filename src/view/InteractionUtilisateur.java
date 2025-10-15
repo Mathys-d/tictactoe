@@ -169,4 +169,24 @@ public class InteractionUtilisateur extends Player {
         System.out.println("IA chooses " + row + " and " + col);
         return new int[]{row, col};
     }
+
+    public String setRepresentation() {
+        boolean a = false;
+        while(a == false) {
+            System.out.println("choose your symbol : X | O");
+            String symbol = sc.nextLine();
+            if (symbol.equalsIgnoreCase("x")) {
+                System.out.println("you choose " + cross);
+                a = true;
+                return representation = cross;
+            } else if (symbol.equalsIgnoreCase("O")) {
+                System.out.println("you choose " + circle);
+                a = true;
+                return representation = circle;
+            } else {
+                System.out.println("wrong input  " );
+            }
+        }
+        return "wroooonnnngggg";
+    }
 }
