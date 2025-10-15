@@ -21,7 +21,6 @@ public class TicTacToe {
 
     public TicTacToe() {}
 
-
     public void start(int[] gameChoice) {
         this.sizeX = gameChoice[0];
         this.sizeY = gameChoice[1];

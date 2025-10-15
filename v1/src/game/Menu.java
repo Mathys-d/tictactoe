@@ -1,15 +1,13 @@
 package game;
 
-import model.TicTacToe;
-import view.InteractionUtilisateur;
-
 import java.util.Scanner;
 
-public class Menu {
+public class Menu extends Gomoku {
 
     InteractionUtilisateur interfaceMenu;
     TicTacToe ticTacToe;
-
+    Gomoku gomoku;
+    PuissanceFour puissanceFour;
     Scanner sc = new Scanner(System.in);
 
     public Menu() {
@@ -66,8 +64,16 @@ public class Menu {
 
         switch (gameChoice[2]) {
             case 1:
-                this.ticTacToe = new TicTacToe(gameChoice[2]);
+                this.ticTacToe = new TicTacToe();
                 ticTacToe.start(gameChoice);
+                break;
+            case 2:
+                this.gomoku = new Gomoku();
+                gomoku.start(gameChoice);
+                break;
+            case 3:
+                this.puissanceFour = new PuissanceFour();
+                puissanceFour.start(gameChoice);
                 break;
             default:
                 System.out.println("Invalid game choice");

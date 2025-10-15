@@ -1,9 +1,10 @@
 package controller;
 
-import model.Cell;
-import view.InteractionUtilisateur;
-import model.ArtificialPlayer;
-import model.Player;
+import board.Cell;
+import game.InteractionUtilisateur;
+import user.ArtificialPlayer;
+import user.Opponent;
+import user.Player;
 
 /**
  * Classe abstraite définissant le comportement général d’un contrôleur de jeu.
@@ -36,7 +37,7 @@ public abstract class GameController {
      * Gère le déroulement du tour de jeu selon le mode choisi (solo, multi, IA vs IA).
      */
     public abstract void usher(int menuChoice, int cpt,
-                               Player player, Player enemy,
+                               Player player, Opponent enemy,
                                ArtificialPlayer ia1, ArtificialPlayer ia2,
                                Cell[][] tableau);
 
