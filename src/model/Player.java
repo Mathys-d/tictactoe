@@ -3,9 +3,9 @@ package model;
 import java.util.Scanner;
 
 public class Player {
-    protected String cross;
-    protected String circle;
-    protected String representation;
+    public String cross;
+    public String circle;
+    public String representation;
     Scanner sc = new Scanner(System.in);
 
     public Player () {

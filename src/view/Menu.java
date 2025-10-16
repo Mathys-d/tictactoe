@@ -1,5 +1,7 @@
 package view;
 
+import controller.GameController;
+import model.Cell;
 import model.TicTacToe;
 
 import java.util.Scanner;
@@ -7,26 +9,25 @@ import java.util.Scanner;
 public class Menu {
 
     InteractionUtilisateur interfaceMenu;
-    TicTacToe ticTacToe;
+    GameController gameController;
 
     Scanner sc = new Scanner(System.in);
 
-    public Menu() {
-    }
+    public Menu() {}
 
     public int[] chooseGame() {
         boolean a = false;
         int[] choiceListe = new int[3];
 
         while (!a) {
-            System.out.println("choose your game (TicTacToe (1)/ gomoku (2)/ power 4 (3))");
+            System.out.println("choose your game (TicTacToe (1))");
             String choice = sc.nextLine();
 
             int option;
             try {
                 option = Integer.parseInt(choice);
             } catch (NumberFormatException e) {
-                System.out.println("wrong input, please enter 1, 2, or 3");
+                System.out.println("wrong input, please enter 1");
                 continue;
             }
 
@@ -38,25 +39,14 @@ public class Menu {
                     choiceListe[2] = 1;
                     a = true;
                     return choiceListe;
-                case 2:
-                    System.out.println("you choose gomoku");
-                    choiceListe[0] = 15;
-                    choiceListe[1] = 15;
-                    choiceListe[2] = 2;
-                    a = true;
-                    return choiceListe;
-                case 3:
-                    System.out.println("you choose power 4");
-                    choiceListe[0] = 7;
-                    choiceListe[1] = 6;
-                    choiceListe[2] = 3;
-                    a = true;
-                    return choiceListe;
                 default:
-                    System.out.println("wrong input, please enter 1, 2, or 3");
-            }
+                    System.out.println("you choose TicTacToe");
+                    choiceListe[0] = 3;
+                    choiceListe[1] = 3;
+                    choiceListe[2] = 1;
+                    a = true;
+                    return choiceListe;}
         }
-
         return choiceListe;
     }
 
@@ -65,8 +55,11 @@ public class Menu {
 
         switch (gameChoice[2]) {
             case 1:
-                this.ticTacToe = new TicTacToe(gameChoice[2]);
-                ticTacToe.start(gameChoice);
+                Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]];
+                InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
+                GameController gameController = new GameController(interfaceMenu, gameChoice[2], gameChoice[0], gameChoice[1]);
+                gameController.start(gameChoice);
+
                 break;
             default:
                 System.out.println("Invalid game choice");

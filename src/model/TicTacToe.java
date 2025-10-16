@@ -1,49 +1,21 @@
 package model;
 
-import controller.GameController;
-import view.InteractionUtilisateur;
-
-
 public class TicTacToe {
     private final int gameChoice;
-    protected int sizeX;
-    protected int sizeY;
-    Cell[][] tableau;
-    Player enemy = new Player();
-    InteractionUtilisateur interfaceMenu;
-    ArtificialPlayer ia1 = new ArtificialPlayer();
-    ArtificialPlayer ia2 = new ArtificialPlayer();
-    GameController gameController;
 
     public TicTacToe(int gameChoice) {
         this.gameChoice = gameChoice;
     }
 
-    public void start(int[] gameChoice) {
-        this.sizeX = gameChoice[0];
-        this.sizeY = gameChoice[1];
-        this.tableau = new Cell[sizeX][sizeY];
-        this.interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
-
-        if (gameChoice[2] == 1) {
-            gameController.launchGame(enemy, ia1, ia2, sizeX, sizeY, gameChoice[2]);
-        } else if (gameChoice[2] == 2) {
-            gameController.launchGame(enemy, ia1, ia2, sizeX, sizeY, gameChoice[2]);
-        } else if (gameChoice[2] == 3) {
-            gameController.launchGame(enemy, ia1, ia2, sizeX, sizeY, gameChoice[2]);
-        }
-    }
-
-
-
-    public Cell init() {
+    public static Cell[][] initialise(Cell[][] tableau, int sizeX, int sizeY) {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 if (tableau[i][j] == null) {
-                    return tableau[i][j] = new Cell();
+                    tableau[i][j] = new Cell();
                 }
             }
         }
+        return tableau;
     }
 
     public boolean isFull(Cell[][] tab) {
@@ -57,7 +29,6 @@ public class TicTacToe {
         return true;
     }
 
-
     public String isOwnedBy(int sizX, int sizY, Cell[][] tableau) {
         for (int i = 0; i < sizX; i++) {
             for (int j = 0; j < sizY; j++) {
@@ -67,13 +38,12 @@ public class TicTacToe {
         return "empty";
     }
 
-
     public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau) {
         // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
             if (isRowWin(i, sizeY, tableau)) {
                 System.out.println("you win");
-                return false;
+                return true;
             }
         }
 
@@ -128,8 +98,6 @@ public class TicTacToe {
         return true;
     }
 
-
-
     public boolean isRowWin(int row, int sizeY, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
@@ -160,7 +128,6 @@ public class TicTacToe {
         return false;
     }
 
-
     public boolean isColWin(int col, int sizeX, Cell[][] tableau) {
         int crossStreak = 0;
         int circleStreak = 0;
@@ -189,20 +156,5 @@ public class TicTacToe {
             }
         }
         return false;
-    }
-
-
-    public void startGame() {
-
-    }
-    
-    
-    
-    
-    
-    
-    
-    public String setGameSymbole() {
-        return this.interfaceMenu.setRepresentation();
     }
 }

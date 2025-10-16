@@ -6,55 +6,87 @@ import model.Player;
 import model.TicTacToe;
 import view.InteractionUtilisateur;
 
+import java.util.Arrays;
+
 
 public  class GameController {
 
-    protected final InteractionUtilisateur interfaceMenu;
-    protected final int gameChoice;
+    protected InteractionUtilisateur interfaceMenu;
+    protected int gameChoice;
     Player player = new Player();
+    Player enemy = new Player();
+    ArtificialPlayer ia1 = new ArtificialPlayer();
+    ArtificialPlayer ia2 = new ArtificialPlayer();
+    GameController gameController;
     TicTacToe ticTacToe;
     int cpt = 0;
+    protected int sizeX;
+    protected int sizeY;
+    Cell[][] tableau;
 
 
-    public GameController(InteractionUtilisateur interfaceMenu, int gameChoice) {
+    public GameController(InteractionUtilisateur interfaceMenu, int gameChoice,int sizeX, int sizeY) {
         this.interfaceMenu = interfaceMenu;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         this.gameChoice = gameChoice;
         this.ticTacToe = new TicTacToe(gameChoice);
     }
 
-    public void launchGame(Player enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY, int whichGame) {
-        Cell tab = TicTacToe.init();
-        int menuChoice = interfaceMenu.startMenu();
-        //solo
+    public void start(int[] gameChoice) {
+        this.gameChoice = gameChoice[2];
+        if (gameChoice[2] == 1) {
+            launchGame(player,enemy, ia1, ia2, sizeX, sizeY);
+        }
+    }
 
+
+    public void launchGame(Player player,Player enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+
+
+
+        this.tableau = new Cell[sizeX][sizeY];
+
+        this.tableau = TicTacToe.initialise(tableau,sizeX,sizeY);
+        int menuChoice = interfaceMenu.startMenu();
+
+        //solo
         if (menuChoice == 1) {
-            String symbolChoice = ticTacToe.setGameSymbole();
+            String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
+                player.setCrossSymbol();
                 ia1.setCirclesSymbol();
-                game(menuChoice);
+                game(menuChoice,enemy, ia1, ia2);
+
             } else {
+                player.setCirclesSymbol();
                 ia1.setCrossSymbol();
-                game(menuChoice);
+                game(menuChoice,enemy, ia1, ia2);
             }
         }
         //multipalyer
         else if (menuChoice == 2) {
-            String symbolChoice = ticTacToe.setGameSymbole();
+            String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
+                player.setCrossSymbol();
                 enemy.setCirclesSymbol();
-                game(menuChoice);
+                game(menuChoice,enemy, ia1, ia2);
             } else {
+                player.setCirclesSymbol();
                 enemy.setCrossSymbol();
-                game(menuChoice);
+                game(menuChoice,enemy, ia1, ia2);
             }
         } else if (menuChoice == 3) {
             ia1.setCrossSymbol();
             ia2.setCirclesSymbol();
-            game(menuChoice);
+            game(menuChoice,enemy, ia1, ia2);
         }
     }
 
-    public void game(int menuChoice) {
+    public void game(int menuChoice,Player enemy, ArtificialPlayer ia1, ArtificialPlayer ia2) {
+
         switch (menuChoice) {
             case 1:
                 System.out.println("Solo mode");
@@ -69,70 +101,45 @@ public  class GameController {
                 System.out.println("Invalid mode");
                 return;
         }
-
         // Boucle principale commune à tous les modes
-        while (!(ticTacToe.isFull(tableau) || !ticTacToe.winCondition(sizeX, sizeY, tableau))) {
-            usher(menuChoice, cpt, player, enemy, ia1, ia2, tableau);
+        while (!ticTacToe.isFull(tableau) && !ticTacToe.winCondition(sizeX, sizeY, tableau)) {
+            System.out.println(Arrays.deepToString(tableau));
+
+            usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
 
             // Cette ligne ne faisait effet que dans le mode IA vs IA
             if (menuChoice == 3) {
                 ticTacToe.isOwnedBy(sizeX, sizeY, tableau);
             }
-
             cpt++;
         }
     }
 
-    public void usher(int menuChoice, int cpt, Player player, Player enemy,ArtificialPlayer ia1, ArtificialPlayer ia2, Cell[][] tableau) {
+    public void usher(int menuChoice) {
+        Player current;
         int[] move;
         String symbol;
 
-        switch (menuChoice) {
-            case 1: // Solo
-                if (cpt % 2 == 0) { // Tour du joueur
-                    System.out.println("Player is playing");
-                    move = interfaceMenu.getMoveFromPlayer(tableau);
-                    symbol = player.getRepresentation();
-                } else { // Tour de l'IA
-                    System.out.println("AI is playing");
-                    move = interfaceMenu.getMoveFromArtificial(tableau);
-                    symbol = ia1.getRepresentation();
-                }
-                break;
-
-            case 2: // Multiplayer
-                if (cpt % 2 == 0) { // Joueur 1
-                    System.out.println("Player 1 is playing");
-                    move = interfaceMenu.getMoveFromPlayer(tableau);
-                    symbol = player.getRepresentation();
-                } else { // Joueur 2 / Enemy
-                    System.out.println("Player 2 is playing");
-                    move = interfaceMenu.getMoveFromPlayer(tableau); // demander au joueur 2
-                    symbol = enemy.getRepresentation();
-                }
-                break;
-
-            case 3: // IA vs IA
-                if (cpt % 2 == 0) { // IA1
-                    System.out.println("AI 1 is playing");
-                    move = interfaceMenu.getMoveFromArtificial(tableau);
-                    symbol = ia1.getRepresentation();
-                } else { // IA2
-                    System.out.println("AI 2 is playing");
-                    move = interfaceMenu.getMoveFromArtificial(tableau);
-                    symbol = ia2.getRepresentation();
-                }
-                break;
-
-            default:
-                return; // Sécurité
+        if (menuChoice == 1) {
+            current = (cpt % 2 == 0) ? player : ia1;
+        } else if (menuChoice == 2) {
+            current = (cpt % 2 == 0) ? player : enemy;
+        } else {
+            current = (cpt % 2 == 0) ? ia1 : ia2;
         }
 
-        // Placer le symbole sur le tableau
-        int row = move[0];
-        int col = move[1];
-        tableau[row][col].setRepresentation(symbol);
+        if (current instanceof ArtificialPlayer) {
+            move = interfaceMenu.getMoveFromArtificial(tableau);
+        } else {
+            move = interfaceMenu.getMoveFromPlayer(tableau);
+        }
+
+        tableau[move[0]][move[1]].setRepresentation(current.getRepresentation());
+    }
+
+    public String setGameSymbole() {
+        return this.interfaceMenu.setRepresentation();
     }
 
 }

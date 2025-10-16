@@ -6,18 +6,18 @@ import model.Player;
 import java.util.Random;
 import java.util.Scanner;
 
-public class InteractionUtilisateur extends Player {
+public class InteractionUtilisateur{
 
     protected final Cell[][] tableau;
     Scanner sc = new Scanner(System.in);
     Random randomNumbers = new Random();
     private final int whichGame;
+    Player player;
 
     public InteractionUtilisateur(Cell[][] tableau, int whichGame) {
         this.tableau = tableau;
         this.whichGame = whichGame;
     }
-
 
     public int startMenu() {
         boolean a = false;
@@ -46,7 +46,7 @@ public class InteractionUtilisateur extends Player {
                     a = true;
                     return 3;
                 default:
-                    System.out.println("wrong input (solo vs ia (1)/ multiplayer (2))");
+                    System.out.println("wrong input (solo vs ia (1)/ multiplayer (2) / ia vs ia (3))");
             }
         }
         return 0;
@@ -97,57 +97,29 @@ public class InteractionUtilisateur extends Player {
     }
 
     public int[] getMoveFromPlayer(Cell[][] tableau) {
-        int maxRow = tableau.length - 1;
         int maxCol = tableau[0].length - 1;
 
-        if (whichGame != 3) {
-            while (true) {
-                try {
-                    System.out.println("Choose the row [0-" + maxRow + "]: ");
-                    int row = Integer.parseInt(sc.nextLine().trim());
-                    System.out.println("Choose the column [0-" + maxCol + "]: ");
-                    int col = Integer.parseInt(sc.nextLine().trim());
-                    System.out.println("You chose: (" + row + ", " + col + ")");
+        while (true) {
+            try {
+                System.out.println("Choose the column [0-" + maxCol + "]: ");
+                int col = Integer.parseInt(sc.nextLine().trim());
+                int row = lastCellRow(col);
+                System.out.println("You chose: " + col + " ");
 
-                    if (row < 0 || row > maxRow || col < 0 || col > maxCol) {
-                        System.out.println("Coordinates out of range. Try again.");
-                        continue;
-                    }
-
-                    if (isUsed(row, col, tableau)) {
-                        System.out.println("Cell already used. Try again.");
-                        continue;
-                    }
-
-                    return new int[]{row, col};
-
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter numeric values only.");
+                if (col < 0 || col > maxCol) {
+                    System.out.println("Coordinates out of range. Try again.");
+                    continue;
                 }
-            }
-        } else {
-            while (true) {
-                try {
-                    System.out.println("Choose the column [0-" + maxCol + "]: ");
-                    int col = Integer.parseInt(sc.nextLine().trim());
-                    int row = lastCellRow(col);
-                    System.out.println("You chose: " + col + " ");
 
-                    if (col < 0 || col > maxCol) {
-                        System.out.println("Coordinates out of range. Try again.");
-                        continue;
-                    }
-
-                    if (isUsed(row, col, tableau)) {
-                        System.out.println("Cell already used. Try again.");
-                        continue;
-                    }
-
-                    return new int[]{row, col};
-
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input. Please enter numeric values only.");
+                if (isUsed(row, col, tableau)) {
+                    System.out.println("Cell already used. Try again.");
+                    continue;
                 }
+
+                return new int[]{row, col};
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter numeric values only.");
             }
         }
     }
@@ -159,7 +131,7 @@ public class InteractionUtilisateur extends Player {
                 col = randomNumbers.nextInt(tableau[0].length);
                 row = lastCellRow(col);
             } while (row == -1);
-        }else {
+        } else {
             do {
                 row = randomNumbers.nextInt(tableau.length);
                 col = randomNumbers.nextInt(tableau[0].length);
@@ -172,19 +144,19 @@ public class InteractionUtilisateur extends Player {
 
     public String setRepresentation() {
         boolean a = false;
-        while(a == false) {
+        while (a == false) {
             System.out.println("choose your symbol : X | O");
             String symbol = sc.nextLine();
             if (symbol.equalsIgnoreCase("x")) {
-                System.out.println("you choose " + cross);
+                System.out.println("you choose " + player.cross);
                 a = true;
-                return representation = cross;
+                return player.representation = player.cross;
             } else if (symbol.equalsIgnoreCase("O")) {
-                System.out.println("you choose " + circle);
+                System.out.println("you choose " + player.circle);
                 a = true;
-                return representation = circle;
+                return player.representation = player.circle;
             } else {
-                System.out.println("wrong input  " );
+                System.out.println("wrong input  ");
             }
         }
         return "wroooonnnngggg";
