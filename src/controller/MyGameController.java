@@ -7,18 +7,13 @@ import model.TicTacToe;
 import view.InteractionUtilisateur;
 
 public class MyGameController extends GameController {
-    InteractionUtilisateur interfaceMenu;
-    protected int gameChoice;
     Player player = new Player();
     Player enemy = new Player();
     ArtificialPlayer ia1 = new ArtificialPlayer();
     ArtificialPlayer ia2 = new ArtificialPlayer();
     TicTacToe ticTacToe;
     int cpt = 0;
-    protected int sizeX;
-    protected int sizeY;
     Cell[][] tableau;
-
 
     public MyGameController(InteractionUtilisateur interfaceMenu, int gameChoice, int sizeX, int sizeY) {
         super(interfaceMenu, gameChoice, sizeX, sizeY);
