@@ -1,15 +1,12 @@
 package view;
 
 import controller.GameController;
+import controller.MyGameController;
 import model.Cell;
-import model.TicTacToe;
 
 import java.util.Scanner;
 
 public class Menu {
-
-    InteractionUtilisateur interfaceMenu;
-    GameController gameController;
 
     Scanner sc = new Scanner(System.in);
 
@@ -45,7 +42,8 @@ public class Menu {
                     choiceListe[1] = 3;
                     choiceListe[2] = 1;
                     a = true;
-                    return choiceListe;}
+                    return choiceListe;
+            }
         }
         return choiceListe;
     }
@@ -53,15 +51,12 @@ public class Menu {
     public void start() {
         int[] gameChoice = chooseGame();
 
-        switch (gameChoice[2]) {
-            case 1:
-                Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]];
-                InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
-                GameController gameController = new GameController(interfaceMenu, gameChoice[2], gameChoice[0], gameChoice[1]);
-                gameController.start(gameChoice);
-
-                break;
-            default:
+        if (gameChoice[2]==1) {
+            Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]];
+            InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
+            MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[2], gameChoice[0], gameChoice[1]);
+            gameController.start(gameChoice);
+        }else{
                 System.out.println("Invalid game choice");
         }
     }

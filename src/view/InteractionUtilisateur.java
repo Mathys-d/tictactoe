@@ -13,7 +13,6 @@ public class InteractionUtilisateur {
     Scanner sc = new Scanner(System.in);
     Random randomNumbers = new Random();
     private final int whichGame;
-    Player player;
 
     public InteractionUtilisateur(Cell[][] tableau, int whichGame) {
         this.tableau = tableau;
