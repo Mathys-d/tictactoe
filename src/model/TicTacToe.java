@@ -43,7 +43,7 @@ public class TicTacToe {
         for (int i = 0; i < sizeX; i++) {
             if (isRowWin(i, sizeY, tableau)) {
                 System.out.println("you win");
-                return true;
+                return false;
             }
         }
 
@@ -103,8 +103,6 @@ public class TicTacToe {
         int circleStreak = 0;
         int len = switch (gameChoice) {
             case 1 -> sizeY; // TicTacToe : full row
-            case 2 -> 5;     // Gomoku
-            case 3 -> 4;     // Puissance 4
             default -> 0;
         };
 

@@ -36,12 +36,12 @@ public  class GameController {
     public void start(int[] gameChoice) {
         this.gameChoice = gameChoice[2];
         if (gameChoice[2] == 1) {
-            launchGame(player,enemy, ia1, ia2, sizeX, sizeY);
+            launchGame(ia1, ia2, sizeX, sizeY);
         }
     }
 
 
-    public void launchGame(Player player,Player enemy, ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY) {
+    public void launchGame(ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
 
@@ -58,12 +58,12 @@ public  class GameController {
             if (symbolChoice.equalsIgnoreCase("X")) {
                 player.setCrossSymbol();
                 ia1.setCirclesSymbol();
-                game(menuChoice,enemy, ia1, ia2);
+                game(menuChoice);
 
             } else {
                 player.setCirclesSymbol();
                 ia1.setCrossSymbol();
-                game(menuChoice,enemy, ia1, ia2);
+                game(menuChoice);
             }
         }
         //multipalyer
@@ -72,20 +72,20 @@ public  class GameController {
             if (symbolChoice.equalsIgnoreCase("X")) {
                 player.setCrossSymbol();
                 enemy.setCirclesSymbol();
-                game(menuChoice,enemy, ia1, ia2);
+                game(menuChoice);
             } else {
                 player.setCirclesSymbol();
                 enemy.setCrossSymbol();
-                game(menuChoice,enemy, ia1, ia2);
+                game(menuChoice);
             }
         } else if (menuChoice == 3) {
             ia1.setCrossSymbol();
             ia2.setCirclesSymbol();
-            game(menuChoice,enemy, ia1, ia2);
+            game(menuChoice);
         }
     }
 
-    public void game(int menuChoice,Player enemy, ArtificialPlayer ia1, ArtificialPlayer ia2) {
+    public void game(int menuChoice) {
 
         switch (menuChoice) {
             case 1:
@@ -102,8 +102,7 @@ public  class GameController {
                 return;
         }
         // Boucle principale commune à tous les modes
-        while (!ticTacToe.isFull(tableau) && !ticTacToe.winCondition(sizeX, sizeY, tableau)) {
-            System.out.println(Arrays.deepToString(tableau));
+        while (ticTacToe.isFull(tableau) || ticTacToe.winCondition(sizeX, sizeY, tableau)) {
 
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
@@ -119,7 +118,6 @@ public  class GameController {
     public void usher(int menuChoice) {
         Player current;
         int[] move;
-        String symbol;
 
         if (menuChoice == 1) {
             current = (cpt % 2 == 0) ? player : ia1;

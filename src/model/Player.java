@@ -6,7 +6,6 @@ public class Player {
     public String cross;
     public String circle;
     public String representation;
-    Scanner sc = new Scanner(System.in);
 
     public Player () {
         this.cross = "X";
