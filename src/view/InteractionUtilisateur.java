@@ -3,10 +3,11 @@ package view;
 import model.Cell;
 import model.Player;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-public class InteractionUtilisateur{
+public class InteractionUtilisateur {
 
     protected final Cell[][] tableau;
     Scanner sc = new Scanner(System.in);
@@ -97,16 +98,18 @@ public class InteractionUtilisateur{
     }
 
     public int[] getMoveFromPlayer(Cell[][] tableau) {
+        int maxRow = tableau.length - 1;
         int maxCol = tableau[0].length - 1;
 
         while (true) {
             try {
+                System.out.println("Choose the row [0-" + maxRow + "]: ");
+                int row = Integer.parseInt(sc.nextLine().trim());
                 System.out.println("Choose the column [0-" + maxCol + "]: ");
                 int col = Integer.parseInt(sc.nextLine().trim());
-                int row = lastCellRow(col);
-                System.out.println("You chose: " + col + " ");
+                System.out.println("You chose: (" + row + ", " + col + ")");
 
-                if (col < 0 || col > maxCol) {
+                if (row < 0 || row > maxRow || col < 0 || col > maxCol) {
                     System.out.println("Coordinates out of range. Try again.");
                     continue;
                 }
@@ -142,23 +145,5 @@ public class InteractionUtilisateur{
         return new int[]{row, col};
     }
 
-    public String setRepresentation() {
-        boolean a = false;
-        while (a == false) {
-            System.out.println("choose your symbol : X | O");
-            String symbol = sc.nextLine();
-            if (symbol.equalsIgnoreCase("x")) {
-                System.out.println("you choose " + player.cross);
-                a = true;
-                return player.representation = player.cross;
-            } else if (symbol.equalsIgnoreCase("O")) {
-                System.out.println("you choose " + player.circle);
-                a = true;
-                return player.representation = player.circle;
-            } else {
-                System.out.println("wrong input  ");
-            }
-        }
-        return "wroooonnnngggg";
-    }
+
 }

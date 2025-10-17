@@ -137,7 +137,7 @@ public  class GameController {
     }
 
     public String setGameSymbole() {
-        return this.interfaceMenu.setRepresentation();
+        return this.player.setRepresentation();
     }
 
 }
