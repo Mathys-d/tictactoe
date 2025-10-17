@@ -15,41 +15,25 @@ public class Player {
         this.representation = "";
     }
 
+
+
     private State state = State.WAITING;
-
-
     public enum State {
         WAITING, PLAYING, WON, LOST
     }
-
     public void setState(State state) {
         this.state = state;
     }
-
     public State getState() {
         return state;
-    }
-
-    public void win() {
-        this.state = State.WON;
-    }
-
-    public String setName() {
-        return this.Name;
-    }
-
-    public String getName() {
-        return this.Name;
     }
 
     public String getRepresentation() {
         return representation;
     }
-
     public String setCrossSymbol() {
         return representation = cross;
     }
-
     public String setCirclesSymbol() {
         return representation = circle;
     }
