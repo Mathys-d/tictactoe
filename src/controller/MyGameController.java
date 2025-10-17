@@ -7,46 +7,42 @@ import model.TicTacToe;
 import view.InteractionUtilisateur;
 
 public class MyGameController extends GameController {
-    Player player = new Player();
-    Player enemy = new Player();
-    ArtificialPlayer ia1 = new ArtificialPlayer();
-    ArtificialPlayer ia2 = new ArtificialPlayer();
+    Player player1;
+    Player player2;
     TicTacToe ticTacToe;
     int cpt = 0;
     Cell[][] tableau;
+
 
     public MyGameController(InteractionUtilisateur interfaceMenu, int gameChoice, int sizeX, int sizeY) {
         super(interfaceMenu, gameChoice, sizeX, sizeY);
         this.ticTacToe = new TicTacToe(gameChoice);
     }
+
     @Override
     public void start(int[] gameChoice) {
         this.gameChoice = gameChoice[2];
-        if (gameChoice[2] == 1) {
-            launchGame(ia1, ia2, gameChoice[0], gameChoice[1]);
-        }
+        launchGame(gameChoice[0], gameChoice[1]);
     }
 
     @Override
-    public void launchGame(ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY) {
-
+    public void launchGame(int sizeX, int sizeY) {
         this.tableau = new Cell[sizeX][sizeY];
-
-        this.tableau = TicTacToe.initialise(tableau,sizeX,sizeY);
-
+        this.tableau = TicTacToe.initialise(tableau, sizeX, sizeY);
         int menuChoice = interfaceMenu.startMenu();
+        initPlayer(menuChoice);
 
         //solo
         if (menuChoice == 1) {
             String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
-                player.setCrossSymbol();
-                ia1.setCirclesSymbol();
+                player1.setCrossSymbol();
+                player2.setCirclesSymbol();
                 game(menuChoice);
 
             } else {
-                player.setCirclesSymbol();
-                ia1.setCrossSymbol();
+                player1.setCirclesSymbol();
+                player2.setCrossSymbol();
                 game(menuChoice);
             }
         }
@@ -54,17 +50,17 @@ public class MyGameController extends GameController {
         else if (menuChoice == 2) {
             String symbolChoice = setGameSymbole();
             if (symbolChoice.equalsIgnoreCase("X")) {
-                player.setCrossSymbol();
-                enemy.setCirclesSymbol();
+                player1.setCrossSymbol();
+                player2.setCirclesSymbol();
                 game(menuChoice);
             } else {
-                player.setCirclesSymbol();
-                enemy.setCrossSymbol();
+                player1.setCirclesSymbol();
+                player2.setCrossSymbol();
                 game(menuChoice);
             }
         } else if (menuChoice == 3) {
-            ia1.setCrossSymbol();
-            ia2.setCirclesSymbol();
+            player1.setCrossSymbol();
+            player2.setCirclesSymbol();
             game(menuChoice);
         }
     }
@@ -88,14 +84,8 @@ public class MyGameController extends GameController {
         }
         // Boucle principale commune à tous les modes
         while (ticTacToe.isFull(tableau) || ticTacToe.winCondition(sizeX, sizeY, tableau)) {
-
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
-
-            // Cette ligne ne faisait effet que dans le mode IA vs IA
-            if (menuChoice == 3) {
-                ticTacToe.isOwnedBy(sizeX, sizeY, tableau);
-            }
             cpt++;
         }
     }
@@ -105,25 +95,35 @@ public class MyGameController extends GameController {
         Player current;
         int[] move;
 
-        if (menuChoice == 1) {
-            current = (cpt % 2 == 0) ? player : ia1;
-        } else if (menuChoice == 2) {
-            current = (cpt % 2 == 0) ? player : enemy;
-        } else {
-            current = (cpt % 2 == 0) ? ia1 : ia2;
-        }
+        current = (cpt % 2 == 0) ? player1 : player2;
 
         if (current instanceof ArtificialPlayer) {
             move = interfaceMenu.getMoveFromArtificial(tableau);
         } else {
             move = interfaceMenu.getMoveFromPlayer(tableau);
         }
-
         tableau[move[0]][move[1]].setRepresentation(current.getRepresentation());
+    }
+
+    public void initPlayer(int menuChoice) {
+        switch (menuChoice) {
+            case 1:
+                this.player1 = new Player();
+                this.player2 = new ArtificialPlayer();
+                break;
+            case 2:
+                this.player1 = new Player();
+                this.player2 = new Player();
+                break;
+            case 3:
+                this.player1 = new ArtificialPlayer();
+                this.player2 = new ArtificialPlayer();
+                break;
+        }
     }
 
     @Override
     public String setGameSymbole() {
-        return this.player.setRepresentation();
+        return this.player1.setRepresentation();
     }
 }

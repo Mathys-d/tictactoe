@@ -6,24 +6,54 @@ public class Player {
     public String cross;
     public String circle;
     public String representation;
+    public String Name;
     Scanner sc = new Scanner(System.in);
 
-    public Player () {
+    public Player() {
         this.cross = "X";
         this.circle = "O";
         this.representation = "";
+    }
+
+    private State state = State.WAITING;
+
+
+    public enum State {
+        WAITING, PLAYING, WON, LOST
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void win() {
+        this.state = State.WON;
+    }
+
+    public String setName() {
+        return this.Name;
+    }
+
+    public String getName() {
+        return this.Name;
     }
 
     public String getRepresentation() {
         return representation;
     }
 
-    public String setCrossSymbol(){
+    public String setCrossSymbol() {
         return representation = cross;
     }
-    public String setCirclesSymbol(){
+
+    public String setCirclesSymbol() {
         return representation = circle;
     }
+
     public String setRepresentation() {
         boolean a = false;
         while (a == false) {

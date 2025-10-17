@@ -1,9 +1,7 @@
 package view;
 
 import model.Cell;
-import model.Player;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -143,6 +141,4 @@ public class InteractionUtilisateur {
         System.out.println("IA chooses " + row + " and " + col);
         return new int[]{row, col};
     }
-
-
 }

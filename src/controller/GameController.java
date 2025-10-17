@@ -19,7 +19,7 @@ public abstract class GameController {
 
     public void start(int[] gameChoice) {}
 
-    public void launchGame(ArtificialPlayer ia1, ArtificialPlayer ia2, int sizeX, int sizeY) {}
+    public void launchGame(int sizeX, int sizeY) {}
 
     public void game(int menuChoice) {}
 
