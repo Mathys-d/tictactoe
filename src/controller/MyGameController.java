@@ -39,7 +39,6 @@ public class MyGameController extends GameController {
                 player1.setCrossSymbol();
                 player2.setCirclesSymbol();
                 game(menuChoice);
-
             } else {
                 player1.setCirclesSymbol();
                 player2.setCrossSymbol();
@@ -67,7 +66,6 @@ public class MyGameController extends GameController {
 
     @Override
     public void game(int menuChoice) {
-
         switch (menuChoice) {
             case 1:
                 System.out.println("Solo mode");

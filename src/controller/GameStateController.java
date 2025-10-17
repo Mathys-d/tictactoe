@@ -1,13 +1,6 @@
 package controller;
 
-import model.Player;
-import view.InteractionUtilisateur;
-
-public class EnumController {
-    protected InteractionUtilisateur interfaceMenu;
-
-    public EnumController() {
-    }
+public class GameStateController {
 
     public enum State {
         WAITING,

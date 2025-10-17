@@ -1,6 +1,6 @@
 package view;
 
-import controller.EnumController;
+import controller.GameStateController;
 import controller.MyGameController;
 import model.Cell;
 
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
-    EnumController enumController = new EnumController();
+    GameStateController gameStateController = new GameStateController();
 
     public Menu() {}
 
@@ -26,7 +26,7 @@ public class Menu {
                 continue;
             }
             a = true;
-            return enumController.getBoard(option);
+            return gameStateController.getBoard(option);
         }
         return null;
     }

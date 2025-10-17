@@ -1,9 +1,12 @@
 package model;
 
-import controller.EnumController;
+import controller.GameStateController;
 
 public class TicTacToe {
     private final int gameChoice;
+    GameStateController.State currentState;
+    boolean won = currentState == GameStateController.State.WON;
+
     public TicTacToe(int gameChoice) {
         this.gameChoice = gameChoice;
     }
@@ -43,16 +46,14 @@ public class TicTacToe {
         // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
             if (isRowWin(i, sizeY, tableau)) {
-                EnumController.State state = EnumController.State.WON;
-            return false;
+                return false;
             }
         }
 
         // Vertical (colonnes)
         for (int j = 0; j < sizeY; j++) {
             if (isColWin(j, sizeX, tableau)) {
-                EnumController.State state = EnumController.State.WON;
-                return false;
+                boolean won = currentState == GameStateController.State.WON;
             }
         }
 
@@ -68,7 +69,7 @@ public class TicTacToe {
                 }
             }
             if (mainDiag) {
-                EnumController.State state = EnumController.State.WON;
+                GameStateController.State state = GameStateController.State.WON;
                 return false;
             }
         }
@@ -85,14 +86,14 @@ public class TicTacToe {
                 }
             }
             if (antiDiag) {
-                EnumController.State state = EnumController.State.WON;
+                GameStateController.State state = GameStateController.State.WON;
                 return false;
             }
         }
 
         // Draw
         if (isFull(tableau)) {
-            EnumController.State state = EnumController.State.DRAW;
+            GameStateController.State state = GameStateController.State.DRAW;
             return false;
         }
 
