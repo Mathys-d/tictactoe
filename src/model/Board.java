@@ -1,6 +1,8 @@
 package model;
 
 public class Board {
+
+
     public int[] getBoard(int gameNb) {
         return switch (gameNb) {
             case 1 -> {
@@ -13,7 +15,7 @@ public class Board {
             }
             case 3 -> {
                 System.out.println("you choose Power 4");
-                yield new int[]{6, 7, 1};
+                yield new int[]{6, 7, 3};
             }
             default -> new int[0];
         };

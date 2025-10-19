@@ -104,7 +104,6 @@ public class PuissanceFour {
             if (menuChoice == 3) {
                 gameLogic.isOwnedBy(sizeX, sizeY, tableau);
             }
-
             cpt++;
         }
     }

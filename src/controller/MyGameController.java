@@ -1,22 +1,28 @@
 package controller;
 
-import model.ArtificialPlayer;
-import model.Cell;
-import model.Player;
-import model.TicTacToe;
+import model.*;
 import view.InteractionUtilisateur;
 
 public class MyGameController extends GameController {
+    GameInterface game;
+
     Player player1;
     Player player2;
-    TicTacToe ticTacToe;
     int cpt = 0;
     Cell[][] tableau;
 
 
     public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {
         super(interfaceMenu, sizeX, sizeY, gameChoice);
-        this.ticTacToe = new TicTacToe(gameChoice);
+        if (gameChoice == 1) {
+            game = new TicTacToe(gameChoice);
+        } else if (gameChoice == 2) {
+            game = new Gomoku(gameChoice);
+        } else if (gameChoice == 3) {
+            game = new Power4(gameChoice);
+        }
+
+
     }
 
     @Override
@@ -28,7 +34,15 @@ public class MyGameController extends GameController {
     @Override
     public void launchGame(int sizeX, int sizeY) {
         this.tableau = new Cell[sizeX][sizeY];
-        TicTacToe.initialise(tableau, sizeX, sizeY);
+
+        if (gameChoice == 1) {
+            TicTacToe.initialise(tableau, sizeX, sizeY);
+        }else if (gameChoice == 2) {
+            Gomoku.initialise(tableau, sizeX, sizeY);
+        }else if (gameChoice == 3) {
+            Power4.initialise(tableau, sizeX, sizeY);
+        }
+
         int menuChoice = interfaceMenu.startMenu();
         initPlayer(menuChoice);
 
@@ -80,17 +94,21 @@ public class MyGameController extends GameController {
                 System.out.println("Invalid mode");
                 return;
         }
+
+
         // Boucle principale commune à tous les modes
-        while (ticTacToe.isFull(tableau) || ticTacToe.winCondition(sizeX, sizeY, tableau)) {
+        while (game.isFull(tableau) && game.winCondition(sizeX, sizeY, tableau)) {
+            System.out.println("INSIDE THE LOOP ");
+
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
             cpt++;
-            if (!ticTacToe.isFull(tableau)){
+            if (!game.isFull(tableau)){
                 System.out.println(GameStateController.PLAYING);
-            }else if (ticTacToe.isFull(tableau)) {
+            }else if (game.isFull(tableau)) {
                 System.out.println(GameStateController.DRAW);
             }
-        }System.out.println(GameStateController.WON);
+        }
     }
 
     @Override
@@ -124,8 +142,6 @@ public class MyGameController extends GameController {
                 break;
         }
     }
-
-
 
     @Override
     public String setGameSymbole() {

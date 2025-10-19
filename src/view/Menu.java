@@ -12,7 +12,7 @@ public class Menu {
 
     public void start() {
         int[] gameChoice = chooseGame();
-        if (gameChoice[2]==1) {
+        if (gameChoice[2]>=1 && gameChoice[2]<=3) {
             Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]]; // create the tab wight the X - Y len
             InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
             MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[0], gameChoice[1], gameChoice[2]);
@@ -26,7 +26,7 @@ public class Menu {
         boolean a = false;
 
         while (!a) {
-            System.out.println("choose your game (TicTacToe (1))");
+            System.out.println("choose your game (TicTacToe (1)/ gomoku (2)/ power 4 (3))");
             String choice = sc.nextLine();
             int option;
             try {

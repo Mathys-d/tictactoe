@@ -1,10 +1,10 @@
 package model;
 
-public class TicTacToe implements GameInterface{
+public class Power4 {
 
     private final int gameChoice;
 
-    public TicTacToe(int gameChoice) {
+    public Power4(int gameChoice) {
         this.gameChoice=gameChoice;
     }
 
@@ -141,5 +141,6 @@ public class TicTacToe implements GameInterface{
         }
         return false;
     }
+
 
 }

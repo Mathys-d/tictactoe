@@ -66,7 +66,9 @@ public class InteractionUtilisateur {
     }
 
     public boolean isUsed(int i, int j, Cell[][] tableau) {
-        return !tableau[i][j].isEmpty();
+        if (!tableau[i][j].isEmpty()) {
+            return true;
+        } return false;
     }
 
     public void displayRow(int size) {
@@ -76,7 +78,7 @@ public class InteractionUtilisateur {
         } else if (size == 7) {
             correction = 12;
         } else if (size == 15) {
-            correction = 14;
+            correction = 13;
         }
         for (int j = 0; j < (size * 7) - correction; j++) {
             System.out.print("-");
@@ -125,6 +127,8 @@ public class InteractionUtilisateur {
 
     public int[] getMoveFromArtificial(Cell[][] tableau, Player current) {
         int row, col;
+        System.out.println(whichGame);
+
         if (whichGame == 3) {
             do {
                 col = randomNumbers.nextInt(tableau[0].length);

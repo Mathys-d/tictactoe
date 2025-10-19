@@ -1,10 +1,10 @@
 package model;
 
-public class TicTacToe implements GameInterface{
+public class Gomoku {
 
     private final int gameChoice;
 
-    public TicTacToe(int gameChoice) {
+    public Gomoku(int gameChoice) {
         this.gameChoice=gameChoice;
     }
 
