@@ -12,7 +12,6 @@ public class MyGameController extends GameController {
     TicTacToe ticTacToe;
     int cpt = 0;
     Cell[][] tableau;
-    GameStateController gsc = GameStateController.PLAYING;
 
 
     public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {

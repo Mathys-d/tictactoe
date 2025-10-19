@@ -1,7 +1,5 @@
 package model;
 
-import controller.GameStateController;
-
 public class TicTacToe {
     private final int gameChoice;
 
@@ -9,7 +7,7 @@ public class TicTacToe {
         this.gameChoice = gameChoice;
     }
 
-    public static Cell[][] initialise(Cell[][] tableau, int sizeX, int sizeY) {
+    public static void initialise(Cell[][] tableau, int sizeX, int sizeY) {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 if (tableau[i][j] == null) {
@@ -17,13 +15,12 @@ public class TicTacToe {
                 }
             }
         }
-        return tableau;
     }
 
     public boolean isFull(Cell[][] tab) {
-        for (int i = 0; i < tab.length; i++) {
-            for (int j = 0; j < tab[i].length; j++) {
-                if (tab[i][j].isEmpty()) {
+        for (Cell[] cells : tab) {
+            for (Cell cell : cells) {
+                if (cell.isEmpty()) {
                     return false;
                 }
             }
@@ -31,14 +28,14 @@ public class TicTacToe {
         return true;
     }
 
-    public String isOwnedBy(int sizX, int sizY, Cell[][] tableau) {
+   /* public String isOwnedBy(int sizX, int sizY, Cell[][] tableau) {
         for (int i = 0; i < sizX; i++) {
             for (int j = 0; j < sizY; j++) {
                 return tableau[i][j].getSymbol();
             }
         }
         return "empty";
-    }
+    }*/
 
     public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau) {
         // Horizontal (lignes)
@@ -51,7 +48,7 @@ public class TicTacToe {
         // Vertical (colonnes)
         for (int j = 0; j < sizeY; j++) {
             if (isColWin(j, sizeX, tableau)) {
-
+                return false;
             }
         }
 

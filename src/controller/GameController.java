@@ -1,6 +1,5 @@
 package controller;
 
-import model.ArtificialPlayer;
 import view.InteractionUtilisateur;
 
 

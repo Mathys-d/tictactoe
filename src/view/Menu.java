@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameStateController;
 import controller.MyGameController;
 import model.Board;
 import model.Cell;

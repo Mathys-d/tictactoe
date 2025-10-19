@@ -15,32 +15,19 @@ public class Player {
         this.representation = "";
     }
 
-
-
-    private State state = State.WAITING;
-    public enum State {
-        WAITING, PLAYING, WON, LOST
-    }
-    public void setState(State state) {
-        this.state = state;
-    }
-    public State getState() {
-        return state;
-    }
-
     public String getRepresentation() {
         return representation;
     }
-    public String setCrossSymbol() {
-        return representation = cross;
+    public void setCrossSymbol() {
+        representation = cross;
     }
-    public String setCirclesSymbol() {
-        return representation = circle;
+    public void setCirclesSymbol() {
+        representation = circle;
     }
 
     public String setRepresentation() {
         boolean a = false;
-        while (a == false) {
+        while (!a) {
             System.out.println("choose your symbol : X | O");
             String symbol = sc.nextLine();
             if (symbol.equalsIgnoreCase("x")) {
