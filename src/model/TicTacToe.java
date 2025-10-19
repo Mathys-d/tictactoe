@@ -4,8 +4,6 @@ import controller.GameStateController;
 
 public class TicTacToe {
     private final int gameChoice;
-    GameStateController.State currentState;
-    boolean won = currentState == GameStateController.State.WON;
 
     public TicTacToe(int gameChoice) {
         this.gameChoice = gameChoice;
@@ -53,7 +51,7 @@ public class TicTacToe {
         // Vertical (colonnes)
         for (int j = 0; j < sizeY; j++) {
             if (isColWin(j, sizeX, tableau)) {
-                boolean won = currentState == GameStateController.State.WON;
+
             }
         }
 
@@ -69,7 +67,6 @@ public class TicTacToe {
                 }
             }
             if (mainDiag) {
-                GameStateController.State state = GameStateController.State.WON;
                 return false;
             }
         }
@@ -86,14 +83,12 @@ public class TicTacToe {
                 }
             }
             if (antiDiag) {
-                GameStateController.State state = GameStateController.State.WON;
                 return false;
             }
         }
 
         // Draw
         if (isFull(tableau)) {
-            GameStateController.State state = GameStateController.State.DRAW;
             return false;
         }
 

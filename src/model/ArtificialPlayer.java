@@ -8,4 +8,7 @@ public class ArtificialPlayer extends Player {
     public String setCirclesSymbol(){
         return representation = circle;
     }
+
+
+
 }

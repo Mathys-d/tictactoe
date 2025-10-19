@@ -1,6 +1,7 @@
 package view;
 
 import model.Cell;
+import model.Player;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -43,8 +44,6 @@ public class InteractionUtilisateur {
                     System.out.println("you choose ia vs ia");
                     a = true;
                     return 3;
-                default:
-                    System.out.println("wrong input (solo vs ia (1)/ multiplayer (2) / ia vs ia (3))");
             }
         }
         return 0;
@@ -94,7 +93,7 @@ public class InteractionUtilisateur {
         return -1;
     }
 
-    public int[] getMoveFromPlayer(Cell[][] tableau) {
+    public int[] getMoveFromPlayer(Cell[][] tableau, Player current) {
         int maxRow = tableau.length - 1;
         int maxCol = tableau[0].length - 1;
 
@@ -124,7 +123,7 @@ public class InteractionUtilisateur {
         }
     }
 
-    public int[] getMoveFromArtificial(Cell[][] tableau) {
+    public int[] getMoveFromArtificial(Cell[][] tableau, Player current) {
         int row, col;
         if (whichGame == 3) {
             do {
@@ -138,7 +137,7 @@ public class InteractionUtilisateur {
             } while (isUsed(row, col, tableau));
         }
 
-        System.out.println("IA chooses " + row + " and " + col);
+        System.out.println(current + " chooses " + row + " and " + col);
         return new int[]{row, col};
     }
 }

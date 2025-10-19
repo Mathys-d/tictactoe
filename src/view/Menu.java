@@ -2,15 +2,26 @@ package view;
 
 import controller.GameStateController;
 import controller.MyGameController;
+import model.Board;
 import model.Cell;
 
 import java.util.Scanner;
 
 public class Menu {
     Scanner sc = new Scanner(System.in);
-    GameStateController gameStateController = new GameStateController();
+    Board board = new Board();
 
-    public Menu() {}
+    public void start() {
+        int[] gameChoice = chooseGame();
+        if (gameChoice[2]==1) {
+            Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]]; // create the tab wight the X - Y len
+            InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
+            MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[0], gameChoice[1], gameChoice[2]);
+            gameController.start(gameChoice);
+        }else{
+            System.out.println("Invalid game choice");
+        }
+    }
 
     public int[] chooseGame() {
         boolean a = false;
@@ -25,21 +36,11 @@ public class Menu {
                 System.out.println("wrong input, please enter 1");
                 continue;
             }
-            a = true;
-            return gameStateController.getBoard(option);
+            if (option >= 1 && option <= 3) {
+                a = true;
+                return board.getBoard(option);
+            }
         }
         return null;
-    }
-
-    public void start() {
-        int[] gameChoice = chooseGame();
-        if (gameChoice[2]==1) {
-            Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]];
-            InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
-            MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[2], gameChoice[0], gameChoice[1]);
-            gameController.start(gameChoice);
-        }else{
-                System.out.println("Invalid game choice");
-        }
     }
 }

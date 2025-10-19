@@ -12,10 +12,11 @@ public class MyGameController extends GameController {
     TicTacToe ticTacToe;
     int cpt = 0;
     Cell[][] tableau;
+    GameStateController gsc = GameStateController.PLAYING;
 
 
-    public MyGameController(InteractionUtilisateur interfaceMenu, int gameChoice, int sizeX, int sizeY) {
-        super(interfaceMenu, gameChoice, sizeX, sizeY);
+    public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {
+        super(interfaceMenu, sizeX, sizeY, gameChoice);
         this.ticTacToe = new TicTacToe(gameChoice);
     }
 
@@ -28,7 +29,7 @@ public class MyGameController extends GameController {
     @Override
     public void launchGame(int sizeX, int sizeY) {
         this.tableau = new Cell[sizeX][sizeY];
-        this.tableau = TicTacToe.initialise(tableau, sizeX, sizeY);
+        TicTacToe.initialise(tableau, sizeX, sizeY);
         int menuChoice = interfaceMenu.startMenu();
         initPlayer(menuChoice);
 
@@ -85,7 +86,12 @@ public class MyGameController extends GameController {
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
             cpt++;
-        }
+            if (!ticTacToe.isFull(tableau)){
+                System.out.println(GameStateController.PLAYING);
+            }else if (ticTacToe.isFull(tableau)) {
+                System.out.println(GameStateController.DRAW);
+            }
+        }System.out.println(GameStateController.WON);
     }
 
     @Override
@@ -96,9 +102,9 @@ public class MyGameController extends GameController {
         current = (cpt % 2 == 0) ? player1 : player2;
 
         if (current instanceof ArtificialPlayer) {
-            move = interfaceMenu.getMoveFromArtificial(tableau);
+            move = interfaceMenu.getMoveFromArtificial(tableau, current);
         } else {
-            move = interfaceMenu.getMoveFromPlayer(tableau);
+            move = interfaceMenu.getMoveFromPlayer(tableau, current);
         }
         tableau[move[0]][move[1]].setRepresentation(current.getRepresentation());
     }
@@ -119,6 +125,8 @@ public class MyGameController extends GameController {
                 break;
         }
     }
+
+
 
     @Override
     public String setGameSymbole() {

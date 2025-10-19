@@ -10,7 +10,7 @@ public abstract class GameController {
     protected int sizeX;
     protected int sizeY;
 
-    public GameController(InteractionUtilisateur interfaceMenu, int gameChoice,int sizeX, int sizeY) {
+    public GameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {
         this.interfaceMenu = interfaceMenu;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
