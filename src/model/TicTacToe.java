@@ -1,6 +1,8 @@
 package model;
 
-public class TicTacToe implements GameInterface{
+import controller.GameInterface;
+
+public class TicTacToe implements GameInterface {
 
     private final int gameChoice;
 
@@ -33,14 +35,14 @@ public class TicTacToe implements GameInterface{
         // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
             if (isRowWin(i, sizeY, tableau)) {
-                return false;
+                return true;
             }
         }
 
         // Vertical (colonnes)
         for (int j = 0; j < sizeY; j++) {
             if (isColWin(j, sizeX, tableau)) {
-                return false;
+                return true;
             }
         }
 
@@ -51,12 +53,12 @@ public class TicTacToe implements GameInterface{
             for (int i = 1; i < sizeX; i++) {
                 String symbol = tableau[i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
-                    mainDiag = false;
+                    mainDiag = true;
                     break;
                 }
             }
             if (mainDiag) {
-                return false;
+                return true;
             }
         }
 
@@ -67,21 +69,21 @@ public class TicTacToe implements GameInterface{
             for (int i = 1; i < sizeX; i++) {
                 String symbol = tableau[sizeX - 1 - i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
-                    antiDiag = false;
+                    antiDiag = true;
                     break;
                 }
             }
             if (antiDiag) {
-                return false;
+                return true;
             }
         }
 
         // Draw
         if (isFull(tableau)) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public boolean isRowWin(int row, int sizeY, Cell[][] tableau) {

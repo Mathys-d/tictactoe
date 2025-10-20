@@ -5,7 +5,6 @@ import view.InteractionUtilisateur;
 
 public class MyGameController extends GameController {
     GameInterface game;
-
     Player player1;
     Player player2;
     int cpt = 0;
@@ -21,8 +20,6 @@ public class MyGameController extends GameController {
         } else if (gameChoice == 3) {
             game = new Power4(gameChoice);
         }
-
-
     }
 
     @Override
@@ -95,9 +92,10 @@ public class MyGameController extends GameController {
                 return;
         }
 
+        System.out.println("OUTSIDE THE LOOP ");
 
         // Boucle principale commune à tous les modes
-        while (game.isFull(tableau) && game.winCondition(sizeX, sizeY, tableau)) {
+        while (!game.isFull(tableau) && !game.winCondition(sizeX, sizeY, tableau)) {
             System.out.println("INSIDE THE LOOP ");
 
             usher(menuChoice);
