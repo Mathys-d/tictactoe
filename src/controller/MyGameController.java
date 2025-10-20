@@ -10,7 +10,6 @@ public class MyGameController extends GameController {
     int cpt = 0;
     Cell[][] tableau;
 
-
     public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {
         super(interfaceMenu, sizeX, sizeY, gameChoice);
         if (gameChoice == 1) {
@@ -25,13 +24,13 @@ public class MyGameController extends GameController {
     @Override
     public void start(int[] gameChoice) {
         this.gameChoice = gameChoice[2];
+        this.winLength = gameChoice[3];
         launchGame(gameChoice[0], gameChoice[1]);
     }
 
     @Override
     public void launchGame(int sizeX, int sizeY) {
         this.tableau = new Cell[sizeX][sizeY];
-
         if (gameChoice == 1) {
             TicTacToe.initialise(tableau, sizeX, sizeY);
         }else if (gameChoice == 2) {
@@ -92,11 +91,8 @@ public class MyGameController extends GameController {
                 return;
         }
 
-        System.out.println("OUTSIDE THE LOOP ");
-
         // Boucle principale commune à tous les modes
-        while (!game.isFull(tableau) && !game.winCondition(sizeX, sizeY, tableau)) {
-            System.out.println("INSIDE THE LOOP ");
+        while (!game.isFull(tableau) && !game.winCondition(sizeX, sizeY, tableau,winLength)) {
 
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);

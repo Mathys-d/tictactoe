@@ -75,9 +75,9 @@ public class InteractionUtilisateur {
         int correction = 0;
         if (size == 3) {
             correction = 2;
-        } else if (size == 7) {
-            correction = 12;
         } else if (size == 15) {
+            correction = 14;
+        } else if (size == 7) {
             correction = 13;
         }
         for (int j = 0; j < (size * 7) - correction; j++) {

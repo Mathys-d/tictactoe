@@ -31,17 +31,17 @@ public class Power4 implements GameInterface {
         return true;
     }
 
-    public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau) {
+    public boolean winCondition(int sizeX, int sizeY, Cell[][] tableau, int winLength) {
         // Horizontal (lignes)
         for (int i = 0; i < sizeX; i++) {
-            if (isRowWin(i, sizeY, tableau)) {
+            if (isRowWin(i, sizeY, tableau, winLength)) {
                 return true;
             }
         }
 
         // Vertical (colonnes)
         for (int j = 0; j < sizeY; j++) {
-            if (isColWin(j, sizeX, tableau)) {
+            if (isColWin(j, sizeX, tableau,winLength)) {
                 return true;
             }
         }
@@ -49,11 +49,12 @@ public class Power4 implements GameInterface {
         // Diagonale principale (L-UP TO R-DOWN)
         boolean mainDiag = true;
         String firstSymbol = tableau[0][0].getSymbol();
+
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
-            for (int i = 1; i < sizeX; i++) {
+            for (int i = 1; i < winLength && i < sizeX && i < sizeY; i++) {
                 String symbol = tableau[i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
-                    mainDiag = true;
+                    mainDiag = false;
                     break;
                 }
             }
@@ -66,10 +67,10 @@ public class Power4 implements GameInterface {
         boolean antiDiag = true;
         firstSymbol = tableau[sizeX - 1][0].getSymbol();
         if (firstSymbol != null && !firstSymbol.trim().isEmpty() && !firstSymbol.equals(" ")) {
-            for (int i = 1; i < sizeX; i++) {
+            for (int i = 1; i < winLength && i < sizeX && i < sizeY; i++) {
                 String symbol = tableau[sizeX - 1 - i][i].getSymbol();
                 if (symbol == null || symbol.trim().isEmpty() || !symbol.equals(firstSymbol)) {
-                    antiDiag = true;
+                    antiDiag = false;
                     break;
                 }
             }
@@ -78,15 +79,14 @@ public class Power4 implements GameInterface {
             }
         }
 
-        // Draw
         if (isFull(tableau)) {
-            return true;
+            return false;
         }
 
         return false;
     }
 
-    public boolean isRowWin(int row, int sizeY, Cell[][] tableau) {
+    public boolean isRowWin(int row, int sizeY, Cell[][] tableau,int winLength) {
         int crossStreak = 0;
         int circleStreak = 0;
         int len = switch (gameChoice) {
@@ -107,14 +107,14 @@ public class Power4 implements GameInterface {
                 circleStreak = 0;
             }
 
-            if (crossStreak == len || circleStreak == len) {
+            if (crossStreak == winLength || circleStreak == winLength) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isColWin(int col, int sizeX, Cell[][] tableau) {
+    public boolean isColWin(int col, int sizeX, Cell[][] tableau,int winLength) {
         int crossStreak = 0;
         int circleStreak = 0;
         int len = switch (gameChoice) {
@@ -137,7 +137,7 @@ public class Power4 implements GameInterface {
                 circleStreak = 0;
             }
 
-            if (crossStreak == len || circleStreak == len) {
+            if (crossStreak == winLength || circleStreak == winLength) {
                 return true;
             }
         }

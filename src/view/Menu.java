@@ -4,7 +4,6 @@ import controller.MyGameController;
 import model.Board;
 import model.Cell;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Menu {

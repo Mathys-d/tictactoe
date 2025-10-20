@@ -6,6 +6,7 @@ import view.InteractionUtilisateur;
 public abstract class GameController {
     protected InteractionUtilisateur interfaceMenu;
     protected int gameChoice;
+    protected int winLength;
     protected int sizeX;
     protected int sizeY;
 
@@ -14,6 +15,7 @@ public abstract class GameController {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.gameChoice = gameChoice;
+        this.winLength = gameChoice;
     }
 
     public void start(int[] gameChoice) {}
