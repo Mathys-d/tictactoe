@@ -5,10 +5,10 @@ import view.InteractionUtilisateur;
 
 public class MyGameController extends GameController {
     GameInterface game;
-    Player player1;
-    Player player2;
+    Player player1; // changer dans game interface
+    Player player2; // changer dans game interface
     int cpt = 0;
-    Cell[][] tableau;
+    Cell[][] tableau; // changer dans game interface
 
     public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice,Cell[][] tableau) {
         super(interfaceMenu, sizeX, sizeY, gameChoice);
