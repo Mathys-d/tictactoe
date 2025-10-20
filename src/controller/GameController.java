@@ -1,5 +1,6 @@
 package controller;
 
+import model.Cell;
 import view.InteractionUtilisateur;
 
 
@@ -18,7 +19,7 @@ public abstract class GameController {
         this.winLength = gameChoice;
     }
 
-    public void start(int[] gameChoice) {}
+    public void start(int[] gameChoice,Cell[][] tableau) {}
 
     public void launchGame(int sizeX, int sizeY) {}
 

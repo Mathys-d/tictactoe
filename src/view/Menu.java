@@ -14,9 +14,14 @@ public class Menu {
         int[] gameChoice = chooseGame();
         if (gameChoice[2]>=1 && gameChoice[2]<=3) {
             Cell[][] tableau = new Cell[gameChoice[0]][gameChoice[1]];// create the tab wight the X - Y len
+            for (int i = 0; i < tableau.length; i++) {
+                for (int j = 0; j < tableau[i].length; j++) {
+                    tableau[i][j] = new Cell();
+                }
+            }
             InteractionUtilisateur interfaceMenu = new InteractionUtilisateur(tableau, gameChoice[2]);
-            MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[0], gameChoice[1], gameChoice[2]);
-            gameController.start(gameChoice);
+            MyGameController gameController = new MyGameController(interfaceMenu, gameChoice[0], gameChoice[1], gameChoice[2],tableau);
+            gameController.start(gameChoice,tableau);
         }else{
             System.out.println("Invalid game choice");
         }

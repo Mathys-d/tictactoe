@@ -10,8 +10,9 @@ public class MyGameController extends GameController {
     int cpt = 0;
     Cell[][] tableau;
 
-    public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice) {
+    public MyGameController(InteractionUtilisateur interfaceMenu,int sizeX,int sizeY,int gameChoice,Cell[][] tableau) {
         super(interfaceMenu, sizeX, sizeY, gameChoice);
+        this.tableau = tableau;
         if (gameChoice == 1) {
             game = new TicTacToe(gameChoice);
         } else if (gameChoice == 2) {
@@ -22,7 +23,7 @@ public class MyGameController extends GameController {
     }
 
     @Override
-    public void start(int[] gameChoice) {
+    public void start(int[] gameChoice,Cell[][] tableau) {
         this.gameChoice = gameChoice[2];
         this.winLength = gameChoice[3];
         launchGame(gameChoice[0], gameChoice[1]);
@@ -30,7 +31,6 @@ public class MyGameController extends GameController {
 
     @Override
     public void launchGame(int sizeX, int sizeY) {
-        this.tableau = new Cell[sizeX][sizeY];
         if (gameChoice == 1) {
             TicTacToe.initialise(tableau, sizeX, sizeY);
         }else if (gameChoice == 2) {
@@ -93,7 +93,6 @@ public class MyGameController extends GameController {
 
         // Boucle principale commune à tous les modes
         while (!game.isFull(tableau) && !game.winCondition(sizeX, sizeY, tableau,winLength)) {
-
             usher(menuChoice);
             interfaceMenu.display(sizeX, sizeY, tableau);
             cpt++;
@@ -115,7 +114,7 @@ public class MyGameController extends GameController {
         if (current instanceof ArtificialPlayer) {
             move = interfaceMenu.getMoveFromArtificial(tableau, current);
         } else {
-            move = interfaceMenu.getMoveFromPlayer(tableau, current);
+            move = interfaceMenu.getMoveFromPlayer(tableau);
         }
         tableau[move[0]][move[1]].setRepresentation(current.getRepresentation());
     }

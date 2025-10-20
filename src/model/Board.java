@@ -1,7 +1,6 @@
 package model;
-
+//
 public class Board {
-
 
     public int[] getBoard(int gameNb) {
         return switch (gameNb) {

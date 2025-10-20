@@ -3,6 +3,7 @@ package view;
 import model.Cell;
 import model.Player;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -66,9 +67,7 @@ public class InteractionUtilisateur {
     }
 
     public boolean isUsed(int i, int j, Cell[][] tableau) {
-        if (!tableau[i][j].isEmpty()) {
-            return true;
-        } return false;
+        return tableau[i][j] == null || !tableau[i][j].isEmpty();
     }
 
     public void displayRow(int size) {
@@ -78,7 +77,7 @@ public class InteractionUtilisateur {
         } else if (size == 15) {
             correction = 14;
         } else if (size == 7) {
-            correction = 13;
+            correction = 11;
         }
         for (int j = 0; j < (size * 7) - correction; j++) {
             System.out.print("-");
@@ -86,25 +85,38 @@ public class InteractionUtilisateur {
         System.out.println();
     }
 
+
+
     public int lastCellRow(int col) {
+
+        // Parcours de bas en haut
         for (int row = tableau.length - 1; row >= 0; row--) {
-            if (!isUsed(row, col, tableau)) {
-                return row;
+            // Si la case existe mais est vide, on peut y poser
+            if (tableau[row][col].isEmpty()) {
+                return row ;
             }
         }
-        return -1;
+
+        // La colonne est pleine
+        return tableau.length - 1;
     }
 
-    public int[] getMoveFromPlayer(Cell[][] tableau, Player current) {
+
+    public int[] getMoveFromPlayer(Cell[][] tableau) {
         int maxRow = tableau.length - 1;
         int maxCol = tableau[0].length - 1;
-
+        int row =0;
         while (true) {
             try {
-                System.out.println("Choose the row [0-" + maxRow + "]: ");
-                int row = Integer.parseInt(sc.nextLine().trim());
                 System.out.println("Choose the column [0-" + maxCol + "]: ");
                 int col = Integer.parseInt(sc.nextLine().trim());
+
+                if(whichGame !=3){
+                    System.out.println("Choose the row [0-" + maxRow + "]: ");
+                    row = Integer.parseInt(sc.nextLine().trim());
+                }else {
+                    row = lastCellRow(col);
+                }
                 System.out.println("You chose: (" + row + ", " + col + ")");
 
                 if (row < 0 || row > maxRow || col < 0 || col > maxCol) {
@@ -132,8 +144,11 @@ public class InteractionUtilisateur {
         if (whichGame == 3) {
             do {
                 col = randomNumbers.nextInt(tableau[0].length);
+                System.out.println("ici ");
                 row = lastCellRow(col);
-            } while (row == -1);
+            } while (row == tableau[0].length -1);
+
+
         } else {
             do {
                 row = randomNumbers.nextInt(tableau.length);

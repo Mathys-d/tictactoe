@@ -1,9 +1,10 @@
 package model;
 
 import controller.GameInterface;
+import view.InteractionUtilisateur;
 
 public class Power4 implements GameInterface {
-
+    InteractionUtilisateur  interactionUtilisateur;
     private final int gameChoice;
 
     public Power4(int gameChoice) {
@@ -16,9 +17,11 @@ public class Power4 implements GameInterface {
                 if (tableau[i][j] == null) {
                     tableau[i][j] = new Cell();
                 }
+
             }
         }
     }
+
 
     public boolean isFull(Cell[][] tab) {
         for (int i = 0; i < tab.length; i++) {
@@ -143,6 +146,7 @@ public class Power4 implements GameInterface {
         }
         return false;
     }
+
 
 
 }

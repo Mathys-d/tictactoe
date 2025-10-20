@@ -85,6 +85,7 @@ public class TicTacToe implements GameInterface {
 
         return false;
     }
+
     public boolean isRowWin(int row, int sizeY, Cell[][] tableau,int winLength) {
         int crossStreak = 0;
         int circleStreak = 0;

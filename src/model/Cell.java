@@ -16,10 +16,7 @@ public class Cell {
         this.representation = representation;
     }
 
-    @Override
-    public String toString() {
-        return this.getRepresentation();
-    }
+
 
     public boolean isEmpty() {
         return " ".equals(this.representation);
@@ -27,5 +24,10 @@ public class Cell {
 
     public String getSymbol() {
         return this.getRepresentation().trim();
+    }
+
+    @Override
+    public String toString() {
+        return this.getRepresentation();
     }
 }
